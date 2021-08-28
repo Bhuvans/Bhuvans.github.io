@@ -2,3 +2,4 @@ name: Bhuvaneswari S
 markdown: kramdown
 #theme: jekyll-theme-minimal
 #repository: bhuvans/bhuvans.github.io
+permalink: /blog/:year/:month/:day/:title
