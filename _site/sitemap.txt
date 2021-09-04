@@ -1,0 +1,12 @@
+
+/blog/
+/cv/
+/feed.xml
+/
+/css/main.css
+/misc/
+/research/
+/sitemap.txt
+/css/main.css.map
+
+/blog/2016/02/08/Chewbaca-is-talking-in-his-sleep
