@@ -18,6 +18,16 @@ usemathjax: true
 5. Introduce VAE as the marriage of Neural Nets and graphical models. Explain that the VAE is trying to minimize ELBO loss (the KL divergence and squared error terms) and therefore tries to model the input data as a mixture of gaussians, which is powerful than ordinary AE that model data as a gaussian. 
 6. Basic Pytorch code for VAE (TF2.0 side by side).
 
+
+## Probability Basics 
+
+A random variable x denotes a quantity that is uncertain. The variable may denote the result of an experiment 
+(e.g., flipping a coin) or a real-world measurement of a fluctuating property (e.g., measuring the temperature). 
+If we observe several instances of the measured random variable $\{x_i\}_{i=1}^I$, then it might take a different value 
+on each occasion. However, some values may occur more often than others. This information is captured by the probability 
+distribution $Pr\left(x\right)$ of the random variable and the choice of the distribution $Pr\left(x\right)$ depends on 
+the domain of the data $x$ that it models.
+
 $$
 
 \begin{aligned}
