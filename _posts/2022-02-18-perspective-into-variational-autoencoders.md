@@ -68,3 +68,21 @@ classification task.
 for each new dataset before a ‘good’ model of sufficient complexity  can be trained. In the context of a general neural 
 network model, this could be the number of hidden layers in the network, the number of hidden units per layer, the 
 learning rate used in the learning algorithm etc.
+
+Going back to random variables and probability distributions, we saw that describing data with probability distributions 
+provides a mathematical framework to express all forms of uncertainty and noise associated with the model. Machine learning, 
+or learning from data, in most cases, therefore primarily concerns with fitting probability distribution models to the 
+observed data $$\{x_i\}_{i=1}^I$$ by making certain assumptions . This process is referred to as learning because we learn 
+about the parameters $$\theta$$ of the model. More generally, these are also called parameter estimation methods since the 
+goal is to estimate parameter values $$\theta$$ that best explain the given observations $$x$$. A related concern of 
+parameter estimation is that of calculating the probability of a new datum $$x^\ast$$ under the resulting model. This is 
+known as evaluating the learned model or the predictive distribution. We now consider three methods of parameter estimation: 
+maximum likelihood, maximum a posteriori and the full bayesian approach.   
+
+Let us now consider a probabilistic model defined by random variable(s) X and parameter(s) $$\theta$$. Bayes’ theorem 
+says that, $$P\left(\theta\middle|X\right)=\frac{P\left(X\middle|\theta\right).P\left(\theta\right)}{P\left(X\right)}$$. 
+Here, $$P\left(\theta\middle| X\right)$$ is the posterior, $$P\left(\theta\right)$$ is the prior and 
+$$P\left(X\middle|\theta\right)$$ is the likelihood function . In parameter estimation, the goal is to find the parameters 
+$$\theta$$ of the model that best explains the given data $$X$$ or that $$\theta$$ which gives the maximum value for the 
+probability $$P\left(\theta\middle| X\right)$$ given $$X$$.
+
