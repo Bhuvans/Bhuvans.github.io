@@ -23,9 +23,9 @@ usemathjax: true
 
 A random variable x denotes a quantity that is uncertain. The variable may denote the result of an experiment 
 (e.g., flipping a coin) or a real-world measurement of a fluctuating property (e.g., measuring the temperature). 
-If we observe several instances of the measured random variable $\{x_i\}_{i=1}^I$, then it might take a different value 
+If we observe several instances of the measured random variable $$\{x_i\}_{i=1}^I$$, then it might take a different value 
 on each occasion. However, some values may occur more often than others. This information is captured by the probability 
-distribution $Pr\left(x\right)$ of the random variable and the choice of the distribution $Pr\left(x\right)$ depends on 
+distribution $$Pr\left(x\right)$$ of the random variable and the choice of the distribution $$Pr\left(x\right)$$ depends on 
 the domain of the data $x$ that it models.
 
 $$
