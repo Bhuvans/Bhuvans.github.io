@@ -86,3 +86,91 @@ $$P\left(X\middle|\theta\right)$$ is the likelihood function . In parameter esti
 $$\theta$$ of the model that best explains the given data $$X$$ or that $$\theta$$ which gives the maximum value for the 
 probability $$P\left(\theta\middle| X\right)$$ given $$X$$.
 
+Using the Bayes’ theorem, three types of parameter estimation can be done:
+1. ###### Maximum-Likelihood Estimation: 
+In the Bayes’ therorem equation, we can consider $$P\left(X\right)$$ a constant quantity that does not figure in the optimization 
+with respect to $$\theta$$ since $$X$$ is fixed and given. Also, if the prior is non-informative there is no information about 
+what $$\theta$$ is the best to start with, in which case the quantity $$P\left(\theta\right)$$ is also irrelevant in the optimization 
+because it would be the same for all the $$\theta$$. Therefore, to maximize $$P\left(\theta\middle| X\right)$$ all that must be 
+done is to maximize the likelihood, $$P\left(X\middle|\theta\right)$$. If we can assume that the data samples were generated 
+independently, then we can write $$L\left(\theta\middle| X\right)=P\left(X\middle|\theta\right)=\prod_{x\in X}{P\left(x\middle|\theta\right)}$$. 
+Taking log on both sides gives us the log-likelihood, $$l\left(\theta\right)=logL\left(\theta\middle| X\right)=\sum_{x\in X} log P\left(x\middle|\theta\right)$$. 
+This also converts the pesky product terms to manageable sum of log terms over all the data samples. The log-likelihood is the 
+quantity that is then maximized wrt $$\theta$$ to give the maximum likelihood parameter estimate.  
+$$
+\widehat{\theta_{ML}}=argmax_\theta\sum_{x\in X} log P\left(x\middle|\theta\right)
+$$
+$${\hat{\theta}}_{ML}$$ is a single, point estimate for the parameter $$\theta$$ that is then used to evaluate the probability of 
+a new datapoint $$\widetilde{x}$$ given the training data $$X$$ by $$p\left(\widetilde{x}\middle| X\right)=p\left(\widetilde{x}\middle|\widehat{\theta_{ML}}\right)$$.
+
+Let us consider a simple coin-toss experiment as an example. Let $$C$$ denote the random variable that the coin turns head. 
+An outcome, $$c\ =\ 1$$ for the random variable $$C$$ therefore denotes a head on the coin and an outcome $$c\ =\ 0$$ denotes a 
+tail on the coin. Let $$\rho$$ denote the probability of getting heads on tossing the coin. Choosing a Bernoulli distribution to 
+model this simple coin-toss experiment gives the likelihood below, 
+$$p\left(C=c\middle|\rho\right)=\rho^c\left(1-\rho\right)^{1-c}$$
+$$
+Log-likelihood,  l\left(\rho\right)=\sum_{i=1}^{N}logp\left(C=c_i\middle|\rho\right)
+=n^{\left(1\right)}log\rho+n^{\left(0\right)}log\left(1-\rho\right)
+$$
+where $$N$$ is the number of data points or the number of independent coin tosses performed, $$n^{\left(1\right)}$$ is the number 
+of heads observed in the $$N$$ data points and $$n^{\left(0\right)}$$ is the number of tails observed in the $$N$$ data points. 
+Maximizing the log-likelihood implies $$\frac{\partial l}{\partial\rho}=0$$ which gives $$\widehat{\rho_{ML}}=\frac{n^{\left(1\right)}}{n^{\left(1\right)}+n^{\left(0\right)}}$$ 
+as the maximum likelihood estimate for the parameter $$\rho$$ assuming that the tosses of the coin can be modelled using a bernoulli 
+distribution.
+
+2. Maximum a-posteriori: In the maximum likelihood estimation method, we did not have any information about the parameters or the 
+prior distribution $$P\left(\theta\right)$$. Now we consider the case when do know something about the parameters $$\theta$$. 
+For eg., what could be known about the parameter $$\rho$$ in the coin-toss experiment? Say, we know that the coin is fair with a 
+high probability. Think of $$\rho$$ being a gaussian with a peak at $$\rho=\ 0.5$$. Is that all? No, we are still not done. 
+A gaussian is a bad choice for the parameter $$\rho$$ which only takes values in $$\left[0,1\right]$$. A better choice for the 
+distribution of $$\rho$$ would be a beta distribution that spans only over the $$[0, 1]$$ domain. The probability distribution 
+for a beta distribution is as follows: $$Beta\left(\rho\middle|\alpha,\beta\right)=P\left(\rho\middle|\alpha,\beta\right)=\frac{1}{B\left(\alpha,\beta\right)}\rho^{\alpha-1}\left(1-\rho\right)^{\beta-1}$$. 
+Here $$B\left(\alpha,\beta\right)$$ is the beta function defined by $$\frac{\Gamma\left(\alpha+\beta\right)}{\Gamma\left(\alpha\right)\Gamma\left(\beta\right)}=\frac{1}{B\left(\alpha,\beta\right)}$$. 
+For eg. $$Beta\left(\rho\middle|1,\ 1\right)$$ reduces to a uniform distribution or a non-informative prior. An informative prior 
+to encode a fair coin in our example could be denoted by say, $$Beta\left(\rho\middle|5,\ 5\right)$$. Note that the $$\alpha$$ 
+and $$\beta$$ parameters of the beta distribution act like pseudo-counts of the outcomes, ie. the Heads and Tails of the coin toss 
+experiment. 
+
+Let us now write down the defining statement for the maximum a-posteriori estimate as $$\widehat{\theta_{MAP}}=argmax_\theta p\left(\theta\middle| X\right)=argmax_\theta p\left(X\middle|\theta\right)p\left(\theta\right)$$. 
+Note that like in the case of maximum likelihood estimation we have avoided computing the entire posterior $$p\left(\theta\middle| x\right)$$ to find the 
+parameter $$\theta$$ that maximizes the posterior. This is because the denominator $$P\left(X\right)$$ is a constant when maximizing 
+the posterior with respect to $$\theta$$. After taking log and summing the quantity over all the datapoints, this is equivalent to 
+$$\widehat{\theta_{MAP}}=argmax_\theta\{\sum_{x\in X} log p\left(x\middle|\theta\right)+log\ p\left(\theta\right)\}$$. For the example 
+coin toss experiment, this would take the form of $$argmax_\theta\left[n^{\left(1\right)}log\rho+n^{\left(0\right)}log\left(1-\rho\right)+\left(\alpha-1\right)log\rho+\left(\beta-1\right)log\left(1-\rho\right)\ +\ CONST.\right]$$
+Like in the maximum likelihood case, taking the derivative of this objective and equating to zero gives $$\widehat{\rho_{MAP}}=\frac{n^{\left(1\right)}+\alpha-1}{n^{\left(1\right)}+n^{\left(0\right)}+\alpha+\beta-2}$$. 
+$${\hat{\theta}}_{MAP}$$ is also a single, point estimate for the parameter $$\theta$$ that is then used to evaluate the probability 
+of a new datapoint $$\widetilde{x}$$ given the training data $$X$$ by $$p\left(\widetilde{x}\middle| X\right)=p\left(\widetilde{x}\middle|\widehat{\theta_{MAP}}\right)$$.
+
+3. Full Bayesian: With maximum likelihood and maximum a posteriori estimation, we found point estimates of the parameter, 
+$$\widehat{\theta_{ML}}$$ and $$\widehat{\theta_{MAP}}$$ respectively, that give a single best parameter setting that best explains 
+the data that is given. However, in terms of finding the best prediction for a new data point ie. $$p\left(\widetilde{x}\middle| X\right)$$, 
+using point estimates for $$\theta$$ are not very accurate. Consider the defining equation for $$p\left(\widetilde{x}\middle| X\right)$$ 
+below and compare this with the expression for $$p\left(\widetilde{x}\middle| X\right)$$ in the cases of maximum likelihood and 
+maximum a posteriori estimation. $$p\left(\widetilde{x}\middle| X\right)=\int_{\theta}{p\left(\widetilde{x}\middle|\theta\right)P\left(\theta\middle| X\right)d}\theta$$
+Notice that in some cases $$P\left(\theta\middle| X\right)$$ could have multiple maxima at different values of $$\theta$$ in which 
+case replacing the integral with only a single point estimate of $$\theta$$ may not be a very savvy approximation to make. Alternatively, 
+for some $$\widetilde{x}$$, $$p\left(\widetilde{x}\middle|\theta\right)$$ could be higher even when $$P\left(\theta\middle| X\right)$$ 
+may not be high which tells us that integrating over all possible values of $$\theta$$ only can evaluate $$p\left(\widetilde{x}\middle| X\right)$$ 
+accurately. The full bayesian approach uses the above integral for parameter estimation and hence is a much better predictor than 
+maximum likelihood or maximum a posteriori estimators. However, it is also computationally hard to solve the integral due to the 
+presence of the posterior $$P\left(\theta\middle| X\right)$$ in it. In the maximum likelihood and maximum a posteriori estimation 
+we were able to get away with fully computing the denominator $$P\left(X\right)$$ in the Bayes theorem equation for 
+$$P\left(\theta\middle| X\right)$$ by considering it to be a constant that would not figure in the problem of maximizing the posterior. 
+However in the full bayesian approach, computing the posterior in its entirety including the denominator $$P\left(X\right)$$ 
+becomes essential. And computing $$P\left(X\right)$$ is hard since $$P\left(X\right)=\int_{\theta}{P\left(X\middle|\theta\right)P\left(\theta\right)d}\theta$$. 
+As we will see with the example of the coin toss experiment below, this computation may not simplify easily unless we choose the 
+prior distribution $$P\left(\theta\right)$$ over the parameters $$\theta$$ that is a conjugate pair to the likelihood distribution, 
+$$P\left(X\middle|\theta\right)$$ which is used to model the given data samples $$X$$. In the full Bayesian approach, the knowledge 
+of the parameters is not obtained from point estimates $$\widehat{\theta_{ML}}$$ or $$\widehat{\theta_{MAP}}$$ but from the entire 
+posterior probability distribution $$P\left(\theta\middle| X\right)$$ defined over the parameters.
+
+Let us now substitute the probabilities in the Bayes' theorem $$P\left(\theta\middle| X\right)=\frac{P\left(X\middle|\theta\right).P\left(\theta\right)}{P\left(X\right)}=\frac{P\left(X\middle|\theta\right).P\left(\theta\right)}{\sum_{\theta}{P\left(X\middle|\theta\right)}.P\left(\theta\right)}$$ for the specific case of the coin toss experiment. 
+The posterior is given by $$P\left(\rho\middle| C,\alpha,\beta\right)=\frac{\left(\prod_{i=1}^{N}{p\left(C=c_i\middle|\rho\right)}\right)P\left(\rho\middle|\alpha,\beta\right)}{\int_{0}^{1}\prod_{i=1}^{N}{p\left(C=c_i\middle|\rho\right)p\left(\rho\middle|\alpha,\beta\right)d}\rho}$$. 
+For the specific choice of Bernoulli likelihood and beta prior distributions, this complex expression simplifies to $$\frac{\rho^{n^{\left(1\right)}}\left(1-\rho\right)^{n^{\left(0\right)}}\rho^{\alpha-1}\left(1-\rho\right)^{\beta-1}}{B\left(n^{\left(1\right)}+\alpha,n^{\left(0\right)}+\beta\right)}$$. 
+Notice that this indeed computes to another beta distribution $$Beta\left(n^{\left(1\right)}+\alpha,n^{\left(0\right)}+\beta\right)$$. 
+Thus we see how the Bernoulli likelihood $$\left(\prod_{i=1}^{N}{p\left(C=c_i\middle|\rho\right)}\right)$$ acts on the Beta prior 
+distribution, $$Beta\left(\alpha,\beta\right)$$ to give a Beta posterior distribution $$Beta\left(n^{\left(1\right)}+\alpha,n^{\left(0\right)}+\beta\right)$$ 
+which looks similar to the prior distribution that has been updated by the counts of heads $$n^{\left(1\right)}$$ and the counts of 
+tails $$n^{\left(0\right)}$$ in the given data $$X$$. Choosing a conjugate pair of distributions for the likelihood and the prior 
+thus enables a seamless online updation of the parameter distribution given new data samples.
+

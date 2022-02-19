@@ -55,6 +55,7 @@ comments:
       num_posts: 5
       width: 580
       colorscheme: light
+
 Mathjax:
   Ajax:
     loadComplete("[Mathjax]/config/local/font:
