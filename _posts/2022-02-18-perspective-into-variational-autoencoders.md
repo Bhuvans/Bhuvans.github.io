@@ -26,22 +26,26 @@ A random variable x denotes a quantity that is uncertain. The variable may denot
 If we observe several instances of the measured random variable $$\{x_i\}_{i=1}^I$$, then it might take a different value 
 on each occasion. However, some values may occur more often than others. This information is captured by the probability 
 distribution $$Pr\left(x\right)$$ of the random variable and the choice of the distribution $$Pr\left(x\right)$$ depends on 
-the domain of the data $x$ that it models.
+the domain of the data $$x$$ that it models.
 
-$$
-
-\begin{aligned}
-  & \phi(x,y) = \phi \left(\sum_{i=1}^n x_ie_i, \sum_{j=1}^n y_je_j \right)
-  = \sum_{i=1}^n \sum_{j=1}^n x_i y_j \phi(e_i, e_j) = \\
-  & (x_1, \ldots, x_n) \left( \begin{array}{ccc}
-      \phi(e_1, e_1) & \cdots & \phi(e_1, e_n) \\
-      \vdots & \ddots & \vdots \\
-      \phi(e_n, e_1) & \cdots & \phi(e_n, e_n)
-    \end{array} \right)
-  \left( \begin{array}{c}
-      y_1 \\
-      \vdots \\
-      y_n
-    \end{array} \right)
-\end{aligned}
-$$
+A random variable may be discrete or continuous. A discrete random variable takes values from a predefined set. This set 
+may be ordered (taking values in ‘Low’, ‘Medium’, ‘High’) or unordered (taking values in ‘Heads’, ‘Tails’). A suitable 
+choice of distribution to model a binary outcome, coin tossing experiment where the random variable takes values in 
+‘Heads’ or ‘Tails’ could be a bernoulli distribution. A continuous random variable takes values that are real numbers. 
+For eg., the height of students in a class, the temperature of a house measured everyday at 3 pm etc. A suitable choice 
+of distribution to model these real-valued random variables could be a gaussian distribution. 
+ 
+In machine learning, we describe the measured/collected data from a source as random variables and use probabilities 
+over these random variables to account for different kinds of natural variations in the data. Such variations may arise 
+due to inherent noise in the measurement process, or due to factors that are unmodeled in the dataset. For e.g., consider 
+a dataset having a temperature measurement (which is the random variable) taken at 3 pm everyday in a house. If we do not 
+factor in the location at which this reading was taken, there might as well be fluctuations in the temperature depending 
+on whether the reading was taken in the bedroom which is air-conditioned or in the kitchen near the stove. Thus, location 
+becomes an unmodeled factor that causes fluctuations in the temperature random variable. Therefore, using probability 
+distributions over random variables help us account for the unmeasurable noise in the system, and also the measurable 
+but un-accounted factors affecting the data collected of the system. Naturally, the data in a machine learning problem 
+is always assumed to have been drawn from an underlying, unknown probability distribution. Supervised learning algorithms 
+would then be learning to infer a desired quantity, the y’s from the underlying conditional probability distribution 
+$$Pr\left(Y\middle| X\right)$$ that it implicitly learns, whereas unsupervised learning algorithms would instead model the 
+given data $$Pr\left(X\right)$$ itself to learn useful representations of the data which can then be used for many purposes. 
+Before we move onto build up on probability distributions, let us break for a quick side note.
