@@ -19,7 +19,7 @@ usemathjax: true
 6. Basic Pytorch code for VAE (TF2.0 side by side).
 
 
-## Probability Basics 
+### Probability Basics 
 
 A random variable $$x$$ denotes a quantity that is uncertain. The variable may denote the result of an experiment 
 (e.g., flipping a coin) or a real-world measurement of a fluctuating property (e.g., temperature readings). If we observe 
@@ -52,23 +52,23 @@ many purposes. Before we move onto build up on learning these probability distri
 
 The following are the key components that need to be defined when trying to apply any ML technique. Clearly putting down 
 these components should set us up for solving the actual problem.
-+ #####Data: 
++ ##### Data: 
 Sample of example data points collected from the source. For a supervised learning task, this could be the 
 $$\{x_i,y_i\}_{i=1}^n$$ pairs collected from a data source. 
-+ #####Model: 
++ ##### Model: 
 Parameterized functional approximation of the relation between the data and the target quantity of interest. For a simple 
 neural network, say just a single sigmoidal neuron, this could take the form of $$\hat{y}=\frac{1}{1+e^{-\left(w^Tx\right)}}$$
-+ #####Parameters: 
++ ##### Parameters: 
 Unknown variables/parameters of the model that need to be learned. For the above neural network model, this 
 would be the $$w’s$$.
-+ #####Learning algorithm: 
++ ##### Learning algorithm: 
 An algorithm for learning the parameters of the model. For the neural network model, this could be the stochastic 
 gradient descent or a variant algorithm like Adam, RMSprop etc. 
-+ #####Objective/loss function: 
++ ##### Objective/loss function: 
 Some sort of a cost that evaluates the model’s predictions. The purpose of the loss function is to guide the learning 
 algorithm to achieve the task. For the neural network model, assuming it is used for regression, the loss could be 
 a squared error loss. On the other hand, Cross entropy could be a suitable loss function for a classification task.
-+ #####Hyperparameters: 
++ ##### Hyperparameters: 
 They can be thought to control the complexity of the model learned. Ideally, these need to be tuned for each new dataset 
 before a ‘good’ model of sufficient complexity  can be trained. In the context of a general neural network model, this 
 could be the number of hidden layers in the network, the number of hidden units per layer, the learning rate used in the 
