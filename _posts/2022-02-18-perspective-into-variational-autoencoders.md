@@ -189,5 +189,4 @@ determinant of $$\Sigma$$.
 
 Maximum likelihood for the Gaussian
 Given a data set $$\mathcal{X}=\left(x_1,x_2,\ldots,x_N\right)^T$$ in which the observations $$\{x_n\}$$ are assumed to be drawn independently from a multivariate Gaussian distribution, we can estimate the parameters of the distribution by maximum likelihood. The log likelihood function is given by 
-$$ \\ \begin{center}ln\ p\left(X\middle|\mu,\Sigma\right)=-\frac{ND}{2}ln\left(2\pi\right)-\frac{N}{2}ln\left|\Sigma\right|-\frac{1}{2}\sum_{n=1}^{N}{{\ \left(x_n-\mu\right)}^T\Sigma^{-1}\left(x_n-\mu\right)} \end{center} \\$$
 
