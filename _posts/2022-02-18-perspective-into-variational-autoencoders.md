@@ -78,7 +78,7 @@ Going back to random variables and probability distributions, we saw that descri
 provides a mathematical framework to express all forms of uncertainty and noise associated with the model. Machine learning, 
 or learning from data, in most cases, therefore primarily concerns with fitting probability distribution models to the 
 observed data $$\{x_i\}_{i=1}^I$$ by making certain assumptions. This process is referred to as learning because we learn 
-about the parameters $$\theta$$ of the model. More generally, these are also called parameter estimation methods since the 
+about the parameters $$\theta$$ of the model. More generally, these are also called **parameter estimation** methods since the 
 goal is to estimate parameter values $$\theta$$ of the probability distribution that best explain the given observations $$x$$ 
 under an assumed form of the data distribution. A related concern of parameter estimation is that of calculating the 
 probability of a new datum $$x^\ast$$ under the resulting model. This is known as evaluating the learned model or the 
@@ -93,7 +93,7 @@ $$\theta$$ of the model that best explains the given data $$X$$. That is to find
 probability $$P\left(\theta\middle| X\right)$$ given $$X$$.
 
 Using the Bayes’ theorem, three types of parameter estimation can be done:
-1. ###### Maximum-Likelihood Estimation: 
+1. ##### Maximum-Likelihood Estimation: 
 In the Bayes’ therorem equation, we can consider $$P\left(X\right)$$ a constant quantity that does not figure in the optimization 
 with respect to $$\theta$$ since $$X$$ is fixed and given. Also, if the prior is non-informative there is no information about 
 what $$\theta$$ is the best to start with, in which case the quantity $$P\left(\theta\right)$$ is also irrelevant in the optimization 
@@ -124,7 +124,8 @@ Maximizing the log-likelihood implies $$\frac{\partial l}{\partial\rho}=0$$ whic
 as the maximum likelihood estimate for the parameter $$\rho$$ assuming that the tosses of the coin can be modelled using a bernoulli 
 distribution.
 
-2. Maximum a-posteriori: In the maximum likelihood estimation method, we did not have any information about the parameters or the 
+2. ##### Maximum a-posteriori: 
+In the maximum likelihood estimation method, we did not have any information about the parameters or the 
 prior distribution $$P\left(\theta\right)$$. Now we consider the case when do know something about the parameters $$\theta$$. 
 For eg., what could be known about the parameter $$\rho$$ in the coin-toss experiment? Say, we know that the coin is fair with a 
 high probability. Think of $$\rho$$ being a gaussian with a peak at $$\rho=\ 0.5$$. Is that all? No, we are still not done. 
@@ -147,7 +148,8 @@ Like in the maximum likelihood case, taking the derivative of this objective and
 $${\hat{\theta}}_{MAP}$$ is also a single, point estimate for the parameter $$\theta$$ that is then used to evaluate the probability 
 of a new datapoint $$\widetilde{x}$$ given the training data $$X$$ by $$p\left(\widetilde{x}\middle| X\right)=p\left(\widetilde{x}\middle|\widehat{\theta_{MAP}}\right)$$.
 
-3. Full Bayesian: With maximum likelihood and maximum a posteriori estimation, we found point estimates of the parameter, 
+3. ##### Full Bayesian: 
+With maximum likelihood and maximum a posteriori estimation, we found point estimates of the parameter, 
 $$\widehat{\theta_{ML}}$$ and $$\widehat{\theta_{MAP}}$$ respectively, that give a single best parameter setting that best explains 
 the data that is given. However, in terms of finding the best prediction for a new data point ie. $$p\left(\widetilde{x}\middle| X\right)$$, 
 using point estimates for $$\theta$$ are not very accurate. Consider the defining equation for $$p\left(\widetilde{x}\middle| X\right)$$ 
@@ -180,3 +182,23 @@ which looks similar to the prior distribution that has been updated by the count
 tails $$n^{\left(0\right)}$$ in the given data $$X$$. Choosing a conjugate pair of distributions for the likelihood and the prior 
 thus enables a seamless online updation of the parameter distribution given new data samples.
 
+### Zooming into Gaussian and Mixture of Gaussians distributions:
+#### The Gaussian distribution
+The Gaussian, also known as the normal distribution, is a widely used model for the distribution of continuous random variables. In the case of a single variable x, the Gaussian distribution can be written in the form 
+\mathcal{N}\left(x\middle|\mu,\sigma^2\right)=\frac{1}{\left(2\pi\sigma^2\right)^\frac{1}{2}}exp\{-\frac{1}{2\sigma^2}\left(x-\mu\right)^2\}
+where \mu, the mean and \sigma^2, the variance are the parameters of the univariate gaussian distribution. For a D-dimensional vector x, the multivariate gaussian takes the form, 
+\mathcal{N}\left(x\middle|\mu,\Sigma\right)=\frac{1}{\left(2\pi\right)^\frac{D}{2}}\frac{1}{\left|\Sigma\right|^\frac{1}{2}}exp\{-{\frac{1}{2}\left(x-\mu\right)}^T\Sigma^{-1}\left(x-\mu\right)\}
+where \mu is a D-dimensional mean vector, \Sigma is a D\times D covariance matrix, and \left|\Sigma\right| denotes the determinant of \Sigma.
+
+##### Maximum likelihood for the Gaussian
+Given a data set \mathcal{X}=\left(x_1,x_2,\ldots,x_N\right)^T in which the observations \{x_n\} are assumed to be drawn independently from a multivariate Gaussian distribution, we can estimate the parameters of the distribution by maximum likelihood. The log likelihood function is given by 
+ln\ p\left(X\middle|\mu,\Sigma\right)=-\frac{ND}{2}ln\left(2\pi\right)-\frac{N}{2}ln\left|\Sigma\right|-\frac{1}{2}\sum_{n=1}^{N}{{\ \left(x_n-\mu\right)}^T\Sigma^{-1}\left(x_n-\mu\right)}
+The derivative of the log likelihood with respect to \mu is given by 
+\frac{\partial}{\partial\mu}ln\ p\left(X\middle|\mu,\Sigma\right)=\sum_{n=1}^{N}{\Sigma^{-1}\left(x_n-\mu\right)}
+Setting this derivative to zero, we obtain the solution for the maximum likelihood estimate of the mean given by 
+\mu_{ML}=\frac{1}{N}\sum_{n=1}^{N}x_n
+which is the mean of the observed data points. The maximization of the log likelihood with respect to \Sigma is rather more involved since there is a symmetry constraint on the covariance matrix \Sigma. The simplest approach is to ignore the constraint and show that the resulting solution is symmetric as required. The result is as expected and takes the form 
+\Sigma_{ML}=\frac{1}{N}\sum_{n=1}^{N}{\left(x_n-\mu_{ML}\right)\left(x_n-\mu_{ML}\right)^T}
+This expression involves \mu_{ML} because it is the result of a joint maximization with respect to \mu and \Sigma. Note that the solution for \mu_{ML} does not depend on \Sigma_{ML}, and so we can first evaluate \mu_{ML} and then use this to evaluate \Sigma_{ML}.
+
+{% include image.html url="assets/mixture_of_gaussians_bishop_figure.png" caption="" width="400" height="200" max_width="100px" align="center" %}
