@@ -108,7 +108,7 @@ $${\hat{\theta}}_{ML}$$ is a single, point estimate for the parameter $$\theta$$
 a new datapoint $$\widetilde{x}$$ given the training data $$X$$ by $$p\left(\widetilde{x}\middle| X\right)=p\left(\widetilde{x}\middle|\widehat{\theta_{ML}}\right)$$.
 
 Let us consider a simple coin-toss experiment as an example. Let $$C$$ denote the random variable that the coin turns head. 
-An outcome, $$c\ =\ 1$$ for the random variable $$C$$ therefore denotes a head on the coin and an outcome $$c\ =\ 0$$ denotes a 
+An outcome, \c = 1\ for the random variable $$C$$ therefore denotes a head on the coin and an outcome $$c\ =\ 0$$ denotes a 
 tail on the coin. Let $$\rho$$ denote the probability of getting heads on tossing the coin. Choosing a Bernoulli distribution to 
 model this simple coin-toss experiment gives the likelihood below, 
 $$ \\ \begin{align*} p\left(C=c\middle|\rho\right) &= \rho^c\left(1-\rho\right)^{1-c} \\ 
