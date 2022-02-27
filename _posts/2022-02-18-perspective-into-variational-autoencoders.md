@@ -184,10 +184,11 @@ thus enables a seamless online updation of the parameter distribution given new 
 
 ### Zooming into Gaussian and Mixture of Gaussians distributions:
 #### The Gaussian distribution
-The Gaussian, also known as the normal distribution, is a widely used model for the distribution of continuous random variables. In the case of a single variable x, the Gaussian distribution can be written in the form 
-\mathcal{N}\left(x\middle|\mu,\sigma^2\right)=\frac{1}{\left(2\pi\sigma^2\right)^\frac{1}{2}}exp\{-\frac{1}{2\sigma^2}\left(x-\mu\right)^2\}
-where \mu, the mean and \sigma^2, the variance are the parameters of the univariate gaussian distribution. For a D-dimensional vector x, the multivariate gaussian takes the form, 
-\mathcal{N}\left(x\middle|\mu,\Sigma\right)=\frac{1}{\left(2\pi\right)^\frac{D}{2}}\frac{1}{\left|\Sigma\right|^\frac{1}{2}}exp\{-{\frac{1}{2}\left(x-\mu\right)}^T\Sigma^{-1}\left(x-\mu\right)\}
-where \mu is a D-dimensional mean vector, \Sigma is a D\times D covariance matrix, and \left|\Sigma\right| denotes the determinant of \Sigma.
+The Gaussian, also known as the normal distribution, is a widely used model for the distribution of continuous random variables. In the case 
+of a single variable $$x$$, the Gaussian distribution can be written in the form $$\mathcal{N}\left(x\middle|\mu,\sigma^2\right)=\frac{1}{\left(2\pi\sigma^2\right)^\frac{1}{2}}exp\{-\frac{1}{2\sigma^2}\left(x-\mu\right)^2\}$$
+where $$\mu$$, the mean and $$\sigma^2$$, the variance are the parameters of the univariate gaussian distribution. 
+For a $$D$$-dimensional vector $$x$$, the multivariate gaussian takes the form, $$\mathcal{N}\left(x\middle|\mu,\Sigma\right)=\frac{1}{\left(2\pi\right)^\frac{D}{2}}\frac{1}{\left|\Sigma\right|^\frac{1}{2}}exp\{-{\frac{1}{2}\left(x-\mu\right)}^T\Sigma^{-1}\left(x-\mu\right)\}$$
+where $$\mu is a $$D$$-dimensional mean vector, $$\Sigma$$ is a $$D\times D$$ covariance matrix, and $$\left|\Sigma\right|$$ denotes the 
+determinant of $$\Sigma$$.
 
 
