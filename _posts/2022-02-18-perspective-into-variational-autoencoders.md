@@ -93,7 +93,7 @@ $$\theta$$ of the model that best explains the given data $$X$$. That is to find
 probability $$P\left(\theta\middle| X\right)$$ given $$X$$.
 
 Using the Bayes’ theorem, three types of parameter estimation can be done:
-1. ##### Maximum-Likelihood Estimation: 
+##### 1. Maximum-Likelihood Estimation: 
 In the Bayes’ therorem equation, we can consider $$P\left(X\right)$$ a constant quantity that does not figure in the optimization 
 with respect to $$\theta$$ since $$X$$ is fixed and given. Also, if the prior is non-informative there is no information about 
 what $$\theta$$ is the best to start with, in which case the quantity $$P\left(\theta\right)$$ is also irrelevant in the optimization 
@@ -103,7 +103,7 @@ independently, then we can write $$L\left(\theta\middle| X\right)=P\left(X\middl
 Taking log on both sides gives us the log-likelihood, $$l\left(\theta\right)=logL\left(\theta\middle| X\right)=\sum_{x\in X} log P\left(x\middle|\theta\right)$$. 
 This also converts the pesky product terms to manageable sum of log terms over all the data samples. The log-likelihood is the 
 quantity that is then maximized wrt $$\theta$$ to give the maximum likelihood parameter estimate.  
-$$ \begin{center} \widehat{\theta_{ML}}=argmax_\theta\sum_{x\in X} log P\left(x\middle|\theta\right) \end{center} $$
+$$ \\ \begin{center} \widehat{\theta_{ML}}=argmax_\theta\sum_{x\in X} log P\left(x\middle|\theta\right) \end{center} \\ $$
 $${\hat{\theta}}_{ML}$$ is a single, point estimate for the parameter $$\theta$$ that is then used to evaluate the probability of 
 a new datapoint $$\widetilde{x}$$ given the training data $$X$$ by $$p\left(\widetilde{x}\middle| X\right)=p\left(\widetilde{x}\middle|\widehat{\theta_{ML}}\right)$$.
 
@@ -111,16 +111,16 @@ Let us consider a simple coin-toss experiment as an example. Let $$C$$ denote th
 An outcome, $$c\ =\ 1$$ for the random variable $$C$$ therefore denotes a head on the coin and an outcome $$c\ =\ 0$$ denotes a 
 tail on the coin. Let $$\rho$$ denote the probability of getting heads on tossing the coin. Choosing a Bernoulli distribution to 
 model this simple coin-toss experiment gives the likelihood below, 
-$$ \begin{center} p\left(C=c\middle|\rho\right) &= \rho^c\left(1-\rho\right)^{1-c} \\ 
+$$ \\ \begin{center} p\left(C=c\middle|\rho\right) &= \rho^c\left(1-\rho\right)^{1-c} \\ 
 Log-likelihood,  l\left(\rho\right) &= \sum_{i=1}^{N}logp\left(C=c_i\middle|\rho\right) \\ 
- &= n^{\left(1\right)}log\rho+n^{\left(0\right)}log\left(1-\rho\right) \end{center} $$
+ &= n^{\left(1\right)}log\rho+n^{\left(0\right)}log\left(1-\rho\right) \end{center} \\ $$
 where $$N$$ is the number of data points or the number of independent coin tosses performed, $$n^{\left(1\right)}$$ is the number 
 of heads observed in the $$N$$ data points and $$n^{\left(0\right)}$$ is the number of tails observed in the $$N$$ data points. 
 Maximizing the log-likelihood implies $$\frac{\partial l}{\partial\rho}=0$$ which gives $$\widehat{\rho_{ML}}=\frac{n^{\left(1\right)}}{n^{\left(1\right)}+n^{\left(0\right)}}$$ 
 as the maximum likelihood estimate for the parameter $$\rho$$ assuming that the tosses of the coin can be modelled using a bernoulli 
 distribution.
 
-2. ##### Maximum a-posteriori: 
+##### 2. Maximum a-posteriori: 
 In the maximum likelihood estimation method, we did not have any information about the parameters or the 
 prior distribution $$P\left(\theta\right)$$. Now we consider the case when do know something about the parameters $$\theta$$. 
 For eg., what could be known about the parameter $$\rho$$ in the coin-toss experiment? Say, we know that the coin is fair with a 
@@ -144,13 +144,13 @@ Like in the maximum likelihood case, taking the derivative of this objective and
 $${\hat{\theta}}_{MAP}$$ is also a single, point estimate for the parameter $$\theta$$ that is then used to evaluate the probability 
 of a new datapoint $$\widetilde{x}$$ given the training data $$X$$ by $$p\left(\widetilde{x}\middle| X\right)=p\left(\widetilde{x}\middle|\widehat{\theta_{MAP}}\right)$$.
 
-3. ##### Full Bayesian: 
+##### 3. Full Bayesian: 
 With maximum likelihood and maximum a posteriori estimation, we found point estimates of the parameter, 
 $$\widehat{\theta_{ML}}$$ and $$\widehat{\theta_{MAP}}$$ respectively, that give a single best parameter setting that best explains 
 the data that is given. However, in terms of finding the best prediction for a new data point ie. $$p\left(\widetilde{x}\middle| X\right)$$, 
 using point estimates for $$\theta$$ are not very accurate. Consider the defining equation for $$p\left(\widetilde{x}\middle| X\right)$$ 
 below and compare this with the expression for $$p\left(\widetilde{x}\middle| X\right)$$ in the cases of maximum likelihood and 
-maximum a posteriori estimation. $$ \begin{center} p\left(\widetilde{x}\middle| X\right)=\int_{\theta}{p\left(\widetilde{x}\middle|\theta\right)P\left(\theta\middle| X\right)d}\theta \end{center}$$
+maximum a posteriori estimation. $$ \\ \begin{center} p\left(\widetilde{x}\middle| X\right)=\int_{\theta}{p\left(\widetilde{x}\middle|\theta\right)P\left(\theta\middle| X\right)d}\theta \end{center} \\$$
 Notice that in some cases $$P\left(\theta\middle| X\right)$$ could have multiple maxima at different values of $$\theta$$ in which 
 case replacing the integral with only a single point estimate of $$\theta$$ may not be a very savvy approximation to make. Alternatively, 
 for some $$\widetilde{x}$$, $$p\left(\widetilde{x}\middle|\theta\right)$$ could be higher even when $$P\left(\theta\middle| X\right)$$ 
@@ -181,20 +181,20 @@ thus enables a seamless online updation of the parameter distribution given new 
 ### Zooming into Gaussian and Mixture of Gaussians distributions:
 #### The Gaussian distribution
 The Gaussian, also known as the normal distribution, is a widely used model for the distribution of continuous random variables. In the case 
-of a single variable $$x$$, the Gaussian distribution can be written in the form $$ \begin{center} \mathcal{N}\left(x\middle|\mu,\sigma^2\right)=\frac{1}{\left(2\pi\sigma^2\right)^\frac{1}{2}}exp\{-\frac{1}{2\sigma^2}\left(x-\mu\right)^2\} \end{center}$$
+of a single variable $$x$$, the Gaussian distribution can be written in the form $$ \\ \begin{center} \mathcal{N}\left(x\middle|\mu,\sigma^2\right)=\frac{1}{\left(2\pi\sigma^2\right)^\frac{1}{2}}exp\{-\frac{1}{2\sigma^2}\left(x-\mu\right)^2\} \end{center} \\ $$
 where $$\mu$$, the mean and $$\sigma^2$$, the variance are the parameters of the univariate gaussian distribution. 
-For a $$D$$-dimensional vector $$x$$, the multivariate gaussian takes the form, $$\begin{center}\mathcal{N}\left(x\middle|\mu,\Sigma\right)=\frac{1}{\left(2\pi\right)^\frac{D}{2}}\frac{1}{\left|\Sigma\right|^\frac{1}{2}}exp\{-{\frac{1}{2}\left(x-\mu\right)}^T\Sigma^{-1}\left(x-\mu\right)\} \end{center}$$
+For a $$D$$-dimensional vector $$x$$, the multivariate gaussian takes the form, $$ \\ \begin{center}\mathcal{N}\left(x\middle|\mu,\Sigma\right)=\frac{1}{\left(2\pi\right)^\frac{D}{2}}\frac{1}{\left|\Sigma\right|^\frac{1}{2}}exp\{-{\frac{1}{2}\left(x-\mu\right)}^T\Sigma^{-1}\left(x-\mu\right)\} \end{center} \\$$
 where $$\mu$$ is a $$D$$-dimensional mean vector, $$\Sigma$$ is a $$D\times D$$ covariance matrix, and $$\left|\Sigma\right|$$ denotes the 
 determinant of $$\Sigma$$.
 
 Maximum likelihood for the Gaussian
 Given a data set $$\mathcal{X}=\left(x_1,x_2,\ldots,x_N\right)^T$$ in which the observations $$\{x_n\}$$ are assumed to be drawn independently from a multivariate Gaussian distribution, we can estimate the parameters of the distribution by maximum likelihood. The log likelihood function is given by 
-$$ \begin{center}ln\ p\left(X\middle|\mu,\Sigma\right)=-\frac{ND}{2}ln\left(2\pi\right)-\frac{N}{2}ln\left|\Sigma\right|-\frac{1}{2}\sum_{n=1}^{N}{{\ \left(x_n-\mu\right)}^T\Sigma^{-1}\left(x_n-\mu\right)} \end{center}$$
+$$ \\ \begin{center}ln\ p\left(X\middle|\mu,\Sigma\right)=-\frac{ND}{2}ln\left(2\pi\right)-\frac{N}{2}ln\left|\Sigma\right|-\frac{1}{2}\sum_{n=1}^{N}{{\ \left(x_n-\mu\right)}^T\Sigma^{-1}\left(x_n-\mu\right)} \end{center} \\$$
 The derivative of the log likelihood with respect to $$\mu$$ is given by 
-$$ \begin{center}\frac{\partial}{\partial\mu}ln\ p\left(X\middle|\mu,\Sigma\right)=\sum_{n=1}^{N}{\Sigma^{-1}\left(x_n-\mu\right)} \end{center} $$
+$$ \\ \begin{center}\frac{\partial}{\partial\mu}ln\ p\left(X\middle|\mu,\Sigma\right)=\sum_{n=1}^{N}{\Sigma^{-1}\left(x_n-\mu\right)} \end{center} \\ $$
 Setting this derivative to zero, we obtain the solution for the maximum likelihood estimate of the mean given by 
-$$ \begin{center}\mu_{ML}=\frac{1}{N}\sum_{n=1}^{N}x_n \end{center}$$
+$$ \\ \begin{center}\mu_{ML}=\frac{1}{N}\sum_{n=1}^{N}x_n \end{center} \\ $$
 which is the mean of the observed data points. The maximization of the log likelihood with respect to $$\Sigma$$ is rather more involved since there is a symmetry constraint on the covariance matrix $$\Sigma$$. The simplest approach is to ignore the constraint and show that the resulting solution is symmetric as required. The result is as expected and takes the form 
-$$ \begin{center}\Sigma_{ML}=\frac{1}{N}\sum_{n=1}^{N}{\left(x_n-\mu_{ML}\right)\left(x_n-\mu_{ML}\right)^T} \end{center}$$
+$$ \\ \begin{center}\Sigma_{ML}=\frac{1}{N}\sum_{n=1}^{N}{\left(x_n-\mu_{ML}\right)\left(x_n-\mu_{ML}\right)^T} \end{center} \\$$
 This expression involves $$\mu_{ML}$$ because it is the result of a joint maximization with respect to $$\mu$$ and $$\Sigma$$. Note that the solution for $$\mu_{ML}$$ does not depend on $$\Sigma_{ML}$$, and so we can first evaluate $$\mu_{ML}$$ and then use this to evaluate $$\Sigma_{ML}$$.
 
