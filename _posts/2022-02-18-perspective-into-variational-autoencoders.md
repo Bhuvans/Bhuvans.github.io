@@ -103,7 +103,7 @@ independently, then we can write $$L\left(\theta\middle| X\right)=P\left(X\middl
 Taking log on both sides gives us the log-likelihood, $$l\left(\theta\right)=logL\left(\theta\middle| X\right)=\sum_{x\in X} log P\left(x\middle|\theta\right)$$. 
 This also converts the pesky product terms to manageable sum of log terms over all the data samples. The log-likelihood is the 
 quantity that is then maximized wrt $$\theta$$ to give the maximum likelihood parameter estimate.  
-$$ \\ \begin{equation} \widehat{\theta_{ML}}=argmax_\theta\sum_{x\in X} log P\left(x\middle|\theta\right) \end{equation} \\ $$
+$$ \\ \begin{align*} \widehat{\theta_{ML}}=argmax_\theta\sum_{x\in X} log P\left(x\middle|\theta\right) \end{align*} \\ $$
 $${\hat{\theta}}_{ML}$$ is a single, point estimate for the parameter $$\theta$$ that is then used to evaluate the probability of 
 a new datapoint $$\widetilde{x}$$ given the training data $$X$$ by $$p\left(\widetilde{x}\middle| X\right)=p\left(\widetilde{x}\middle|\widehat{\theta_{ML}}\right)$$.
 
@@ -111,9 +111,9 @@ Let us consider a simple coin-toss experiment as an example. Let $$C$$ denote th
 An outcome, $$c\ =\ 1$$ for the random variable $$C$$ therefore denotes a head on the coin and an outcome $$c\ =\ 0$$ denotes a 
 tail on the coin. Let $$\rho$$ denote the probability of getting heads on tossing the coin. Choosing a Bernoulli distribution to 
 model this simple coin-toss experiment gives the likelihood below, 
-$$ \\ \begin{equation} p\left(C=c\middle|\rho\right) &= \rho^c\left(1-\rho\right)^{1-c} \\ 
+$$ \\ \begin{align*} p\left(C=c\middle|\rho\right) &= \rho^c\left(1-\rho\right)^{1-c} \\ 
 Log-likelihood,  l\left(\rho\right) &= \sum_{i=1}^{N}logp\left(C=c_i\middle|\rho\right) \\ 
- &= n^{\left(1\right)}log\rho+n^{\left(0\right)}log\left(1-\rho\right) \end{equation} \\ $$
+ &= n^{\left(1\right)}log\rho+n^{\left(0\right)}log\left(1-\rho\right) \end{align*} \\ $$
 where $$N$$ is the number of data points or the number of independent coin tosses performed, $$n^{\left(1\right)}$$ is the number 
 of heads observed in the $$N$$ data points and $$n^{\left(0\right)}$$ is the number of tails observed in the $$N$$ data points. 
 Maximizing the log-likelihood implies $$\frac{\partial l}{\partial\rho}=0$$ which gives $$\widehat{\rho_{ML}}=\frac{n^{\left(1\right)}}{n^{\left(1\right)}+n^{\left(0\right)}}$$ 
@@ -125,8 +125,8 @@ In the maximum likelihood estimation method, we did not have any information abo
 prior distribution $$P\left(\theta\right)$$. Now we consider the case when do know something about the parameters $$\theta$$. 
 For eg., what could be known about the parameter $$\rho$$ in the coin-toss experiment? Say, we know that the coin is fair with a 
 high probability. Think of $$\rho$$ being a gaussian with a peak at $$\rho=\ 0.5$$. Is that all? No, we are still not done. 
-A gaussian is a bad choice for the parameter $$\rho$$ which only takes values in $$\left[0,1\right]$$. A better choice for the 
-distribution of $$\rho$$ would be a beta distribution that spans only over the $$[0, 1]$$ domain. The probability distribution 
+A gaussian is a bad choice for the parameter $$\rho$$ which only takes values in $$\left\[0,1\right\]$$. A better choice for the 
+distribution of $$\rho$$ would be a beta distribution that spans only over the $$\[0, 1\]$$ domain. The probability distribution 
 for a beta distribution is as follows: $$Beta\left(\rho\middle|\alpha,\beta\right)=P\left(\rho\middle|\alpha,\beta\right)=\frac{1}{B\left(\alpha,\beta\right)}\rho^{\alpha-1}\left(1-\rho\right)^{\beta-1}$$. 
 Here $$B\left(\alpha,\beta\right)$$ is the beta function defined by $$\frac{\Gamma\left(\alpha+\beta\right)}{\Gamma\left(\alpha\right)\Gamma\left(\beta\right)}=\frac{1}{B\left(\alpha,\beta\right)}$$. 
 For eg. $$Beta\left(\rho\middle|1,\ 1\right)$$ reduces to a uniform distribution or a non-informative prior. An informative prior 
@@ -139,7 +139,7 @@ Note that like in the case of maximum likelihood estimation we have avoided comp
 parameter $$\theta$$ that maximizes the posterior. This is because the denominator $$P\left(X\right)$$ is a constant when maximizing 
 the posterior with respect to $$\theta$$. After taking log and summing the quantity over all the datapoints, this is equivalent to 
 $$\widehat{\theta_{MAP}}=argmax_\theta\{\sum_{x\in X} log p\left(x\middle|\theta\right)+log\ p\left(\theta\right)\}$$. For the example 
-coin toss experiment, this would take the form of $$argmax_\theta\left[n^{\left(1\right)}log\rho+n^{\left(0\right)}log\left(1-\rho\right)+\left(\alpha-1\right)log\rho+\left(\beta-1\right)log\left(1-\rho\right)\ +\ CONST.\right]$$
+coin toss experiment, this would take the form of $$argmax_\theta\left\[n^{\left(1\right)}log\rho+n^{\left(0\right)}log\left(1-\rho\right)+\left(\alpha-1\right)log\rho+\left(\beta-1\right)log\left(1-\rho\right)\ +\ CONST.\right\]$$
 Like in the maximum likelihood case, taking the derivative of this objective and equating to zero gives $$\widehat{\rho_{MAP}}=\frac{n^{\left(1\right)}+\alpha-1}{n^{\left(1\right)}+n^{\left(0\right)}+\alpha+\beta-2}$$. 
 $${\hat{\theta}}_{MAP}$$ is also a single, point estimate for the parameter $$\theta$$ that is then used to evaluate the probability 
 of a new datapoint $$\widetilde{x}$$ given the training data $$X$$ by $$p\left(\widetilde{x}\middle| X\right)=p\left(\widetilde{x}\middle|\widehat{\theta_{MAP}}\right)$$.
@@ -150,7 +150,7 @@ $$\widehat{\theta_{ML}}$$ and $$\widehat{\theta_{MAP}}$$ respectively, that give
 the data that is given. However, in terms of finding the best prediction for a new data point ie. $$p\left(\widetilde{x}\middle| X\right)$$, 
 using point estimates for $$\theta$$ are not very accurate. Consider the defining equation for $$p\left(\widetilde{x}\middle| X\right)$$ 
 below and compare this with the expression for $$p\left(\widetilde{x}\middle| X\right)$$ in the cases of maximum likelihood and 
-maximum a posteriori estimation. $$ \\ \begin{equation} p\left(\widetilde{x}\middle| X\right)=\int_{\theta}{p\left(\widetilde{x}\middle|\theta\right)P\left(\theta\middle| X\right)d}\theta \end{equation} \\$$
+maximum a posteriori estimation. $$ \\ \begin{align*} p\left(\widetilde{x}\middle| X\right)=\int_{\theta}{p\left(\widetilde{x}\middle|\theta\right)P\left(\theta\middle| X\right)d}\theta \end{align*} \\$$
 Notice that in some cases $$P\left(\theta\middle| X\right)$$ could have multiple maxima at different values of $$\theta$$ in which 
 case replacing the integral with only a single point estimate of $$\theta$$ may not be a very savvy approximation to make. Alternatively, 
 for some $$\widetilde{x}$$, $$p\left(\widetilde{x}\middle|\theta\right)$$ could be higher even when $$P\left(\theta\middle| X\right)$$ 
@@ -181,9 +181,9 @@ thus enables a seamless online updation of the parameter distribution given new 
 ### Zooming into Gaussian and Mixture of Gaussians distributions:
 #### The Gaussian distribution
 The Gaussian, also known as the normal distribution, is a widely used model for the distribution of continuous random variables. In the case 
-of a single variable $$x$$, the Gaussian distribution can be written in the form $$ \\ \begin{equation} \mathcal{N}\left(x\middle|\mu,\sigma^2\right)=\frac{1}{\left(2\pi\sigma^2\right)^\frac{1}{2}}exp\{-\frac{1}{2\sigma^2}\left(x-\mu\right)^2\} \end{equation} \\ $$
+of a single variable $$x$$, the Gaussian distribution can be written in the form $$ \\ \begin{align*} \mathcal{N}\left(x\middle|\mu,\sigma^2\right)=\frac{1}{\left(2\pi\sigma^2\right)^\frac{1}{2}}exp\{-\frac{1}{2\sigma^2}\left(x-\mu\right)^2\} \end{align*} \\ $$
 where $$\mu$$, the mean and $$\sigma^2$$, the variance are the parameters of the univariate gaussian distribution. 
-For a $$D$$-dimensional vector $$x$$, the multivariate gaussian takes the form, $$ \\ \begin{equation}\mathcal{N}\left(x\middle|\mu,\Sigma\right)=\frac{1}{\left(2\pi\right)^\frac{D}{2}}\frac{1}{\left|\Sigma\right|^\frac{1}{2}}exp\{-{\frac{1}{2}\left(x-\mu\right)}^T\Sigma^{-1}\left(x-\mu\right)\} \end{equation} \\$$
+For a $$D$$-dimensional vector $$x$$, the multivariate gaussian takes the form, $$ \\ \begin{align*}\mathcal{N}\left(x\middle|\mu,\Sigma\right)=\frac{1}{\left(2\pi\right)^\frac{D}{2}}\frac{1}{\left|\Sigma\right|^\frac{1}{2}}exp\{-{\frac{1}{2}\left(x-\mu\right)}^T\Sigma^{-1}\left(x-\mu\right)\} \end{align*} \\$$
 where $$\mu$$ is a $$D$$-dimensional mean vector, $$\Sigma$$ is a $$D\times D$$ covariance matrix, and $$\left|\Sigma\right|$$ denotes the 
 determinant of $$\Sigma$$.
 
