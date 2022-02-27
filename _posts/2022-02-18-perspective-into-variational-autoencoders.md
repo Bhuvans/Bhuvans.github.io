@@ -190,15 +190,4 @@ where \mu, the mean and \sigma^2, the variance are the parameters of the univari
 \mathcal{N}\left(x\middle|\mu,\Sigma\right)=\frac{1}{\left(2\pi\right)^\frac{D}{2}}\frac{1}{\left|\Sigma\right|^\frac{1}{2}}exp\{-{\frac{1}{2}\left(x-\mu\right)}^T\Sigma^{-1}\left(x-\mu\right)\}
 where \mu is a D-dimensional mean vector, \Sigma is a D\times D covariance matrix, and \left|\Sigma\right| denotes the determinant of \Sigma.
 
-##### Maximum likelihood for the Gaussian
-Given a data set \mathcal{X}=\left(x_1,x_2,\ldots,x_N\right)^T in which the observations \{x_n\} are assumed to be drawn independently from a multivariate Gaussian distribution, we can estimate the parameters of the distribution by maximum likelihood. The log likelihood function is given by 
-ln\ p\left(X\middle|\mu,\Sigma\right)=-\frac{ND}{2}ln\left(2\pi\right)-\frac{N}{2}ln\left|\Sigma\right|-\frac{1}{2}\sum_{n=1}^{N}{{\left(x_n-\mu\right)}^T\Sigma^{-1}\left(x_n-\mu\right)}
-The derivative of the log likelihood with respect to \mu is given by 
-\frac{\partial}{\partial\mu}ln\ p\left(X\middle|\mu,\Sigma\right)=\sum_{n=1}^{N}{\Sigma^{-1}\left(x_n-\mu\right)}
-Setting this derivative to zero, we obtain the solution for the maximum likelihood estimate of the mean given by 
-\mu_{ML}=\frac{1}{N}\sum_{n=1}^{N}x_n
-which is the mean of the observed data points. The maximization of the log likelihood with respect to \Sigma is rather more involved since there is a symmetry constraint on the covariance matrix \Sigma. The simplest approach is to ignore the constraint and show that the resulting solution is symmetric as required. The result is as expected and takes the form 
-\Sigma_{ML}=\frac{1}{N}\sum_{n=1}^{N}{\left(x_n-\mu_{ML}\right)\left(x_n-\mu_{ML}\right)^T}
-This expression involves \mu_{ML} because it is the result of a joint maximization with respect to \mu and \Sigma. Note that the solution for \mu_{ML} does not depend on \Sigma_{ML}, and so we can first evaluate \mu_{ML} and then use this to evaluate \Sigma_{ML}.
 
-{% include image.html url="assets/mixture_of_gaussians_bishop_figure.png" caption="" width="400" height="200" max_width="100px" align="center" %}
