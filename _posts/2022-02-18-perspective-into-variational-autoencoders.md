@@ -23,7 +23,7 @@ usemathjax: true
 
 A random variable $x$ denotes a quantity that is uncertain. The variable may denote the result of an experiment 
 (e.g., flipping a coin) or a real-world measurement of a fluctuating property (e.g., temperature readings). If we observe 
-several instances of the measured random variable $\{x_i\}_{i=1}^I$, then it might take a different value on each occasion. 
+several instances of the measured random variable $$\{x_i\}_{i=1}^I$$, then it might take a different value on each occasion. 
 However, some values may occur more often than others. This information is captured by the probability distribution 
 $Pr\left(x\right)$ of the random variable. 
 
@@ -77,7 +77,7 @@ learning algorithm etc.
 Going back to random variables and probability distributions, we saw that describing data with probability distributions 
 provides a mathematical framework to express all forms of uncertainty and noise associated with the model. Machine learning, 
 or learning from data, in most cases, therefore primarily concerns with fitting probability distribution models to the 
-observed data $\{x_i\}_{i=1}^I$ by making certain assumptions. This process is referred to as learning because we learn 
+observed data $$\{x_i\}_{i=1}^I$$ by making certain assumptions. This process is referred to as learning because we learn 
 about the parameters $\theta$ of the model. More generally, these are also called **parameter estimation** methods since the 
 goal is to estimate parameter values $\theta$ of the probability distribution that best explain the given observations $x$ 
 under an assumed form of the data distribution. A related concern of parameter estimation is that of calculating the 
@@ -103,17 +103,17 @@ independently, then we can write $L\left(\theta\middle| X\right)=P\left(X\middle
 Taking log on both sides gives us the log-likelihood, $l\left(\theta\right)=logL\left(\theta\middle| X\right)=\sum_{x\in X} log P\left(x\middle|\theta\right)$. 
 This also converts the pesky product terms to manageable sum of log terms over all the data samples. The log-likelihood is the 
 quantity that is then maximized wrt $\theta$ to give the maximum likelihood parameter estimate.  
-$$ \begin{align*} \widehat{\theta_{ML}}=argmax_\theta\sum_{x\in X} log P\left(x\middle|\theta\right) \end{align*} $$
-${\hat{\theta}}_{ML}$ is a single, point estimate for the parameter $\theta$ that is then used to evaluate the probability of 
+$$ \widehat{\theta_{ML}}=argmax_\theta\sum_{x\in X} log P\left(x\middle|\theta\right) $$
+where $\hat{\theta}_{ML}$ is a single, point estimate for the parameter $\theta$ that is then used to evaluate the probability of 
 a new datapoint $\widetilde{x}$ given the training data $X$ by $p\left(\widetilde{x}\middle| X\right)=p\left(\widetilde{x}\middle|\widehat{\theta_{ML}}\right)$.
 
 Let us consider a simple coin-toss experiment as an example. Let $C$ denote the random variable that the coin turns head. 
 An outcome, $c = 1$ for the random variable $C$ therefore denotes a head on the coin and an outcome $c = 0$ denotes a 
 tail on the coin. Let $\rho$ denote the probability of getting heads on tossing the coin. Choosing a Bernoulli distribution to 
 model this simple coin-toss experiment gives the likelihood below, 
-$$ \begin{align*} p\left(C=c\middle|\rho\right) &= \rho^c\left(1-\rho\right)^{1-c} \\ 
-Log-likelihood,  l\left(\rho\right) &= \sum_{i=1}^{N}logp\left(C=c_i\middle|\rho\right) \\ 
- &= n^{\left(1\right)}log\rho+n^{\left(0\right)}log\left(1-\rho\right) \end{align*} $$
+$$ p\left(C=c\middle|\rho\right) &= \rho^c\left(1-\rho\right)^{1-c}  
+Log-likelihood,  l\left(\rho\right) &= \sum_{i=1}^{N}logp\left(C=c_i\middle|\rho\right)  
+ &= n^{\left(1\right)}log\rho+n^{\left(0\right)}log\left(1-\rho\right) $$
 where $N$ is the number of data points or the number of independent coin tosses performed, $n^{\left(1\right)}$ is the number 
 of heads observed in the $N$ data points and $n^{\left(0\right)}$ is the number of tails observed in the $N$ data points. 
 Maximizing the log-likelihood implies $\frac{\partial l}{\partial\rho}=0$ which gives $\widehat{\rho_{ML}}=\frac{n^{\left(1\right)}}{n^{\left(1\right)}+n^{\left(0\right)}}$
