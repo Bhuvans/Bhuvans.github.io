@@ -129,11 +129,11 @@ In the maximum likelihood estimation method, we did not have any information abo
 prior distribution $$P\left(\theta\right)$$. Now we consider the case when do know something about the parameters $$\theta$$. 
 For eg., what could be known about the parameter $$\rho$$ in the coin-toss experiment? Say, we know that the coin is fair with a 
 high probability. Think of $$\rho$$ being a gaussian with a peak at $$\rho = 0.5$$. Is that all? No, we are still not done. 
-A gaussian is a bad choice for the parameter $$\rho$$ which only takes values in $$\[0,1\]$$. A better choice for the 
-distribution of $$\rho$$ would be a beta distribution that spans only over the $$\[0, 1\]$$ domain. The probability distribution 
+A gaussian is a bad choice for the parameter $$\rho$$ which only takes values in $$[0,1]$$. A better choice for the 
+distribution of $$\rho$$ would be a beta distribution that spans only over the $$[0, 1]$$ domain. The probability distribution 
 for a beta distribution is as follows: 
 
-$$Beta\left(\rho\middle|\alpha,\beta\right)=P\left(\rho\middle|\alpha,\beta\right)=\frac{1}{B\left(\alpha,\beta\right)}\rho^{\alpha-1}\left(1-\rho\right)^{\beta-1}$$. 
+$$ Beta(\rho|\alpha,\beta)=P(\rho|\alpha,\beta) = \frac{1}{B(\alpha,\beta)} \rho^{\alpha-1}(1-\rho)^{\beta-1}$$. 
 
 Here $$B\left(\alpha,\beta\right)$$ is the beta function defined by $$\frac{\Gamma\left(\alpha+\beta\right)}{\Gamma\left(\alpha\right)\Gamma\left(\beta\right)}=\frac{1}{B\left(\alpha,\beta\right)}$$. 
 For eg. $$Beta\left(\rho\middle|1,\ 1\right)$$ reduces to a uniform distribution or a non-informative prior. An informative prior 
