@@ -21,13 +21,13 @@ katex: True
 
 ### Probability Basics 
 
-A random variable $x$ denotes a quantity that is uncertain. The variable may denote the result of an experiment 
+A random variable $$x$$ denotes a quantity that is uncertain. The variable may denote the result of an experiment 
 (e.g., flipping a coin) or a real-world measurement of a fluctuating property (e.g., temperature readings). If we observe 
 several instances of the measured random variable $$\{x_i\}_{i=1}^I$$, then it might take a different value on each occasion. 
 However, some values may occur more often than others. This information is captured by the probability distribution 
-$Pr\left(x\right)$ of the random variable. 
+$$Pr\left(x\right)$$ of the random variable. 
 
-The choice of the distribution $Pr\left(x\right)$ depends on the domain of the data $x$ that it models. The random 
+The choice of the distribution $$Pr\left(x\right)$$ depends on the domain of the data $$x$$ that it models. The random 
 variable may be discrete or continuous. A discrete random variable takes values from a predefined set. This set may be 
 ordered (taking values in ‘Low’, ‘Medium’, ‘High’) or unordered (taking values in ‘Heads’, ‘Tails’). A suitable choice of 
 distribution to model a coin tossing experiment with binary outcomes could be a bernoulli distribution. The corresponding 
@@ -106,10 +106,10 @@ quantity that is then maximized wrt $\theta$ to give the maximum likelihood para
 
 $$ \widehat{\theta_{ML}}=argmax_\theta\sum_{x\in X} log P\left(x\middle|\theta\right) $$
 
-where $$\hat{\theta}_{ML}$$ is a single, point estimate for the parameter $\theta$ that is then used to evaluate the probability of 
+where $\hat{\theta}_{ML}$ is a single, point estimate for the parameter $\theta$ that is then used to evaluate the probability of 
 a new datapoint $\widetilde{x}$ given the training data $X$ by $p\left(\widetilde{x}\middle| X\right)=p\left(\widetilde{x}\middle|\widehat{\theta_{ML}}\right)$.
 
-Let us consider a simple coin-toss experiment as an example. Let $C$ denote the random variable that the coin turns head. 
+Consider a simple coin-toss experiment as an example. Let $C$ denote the random variable that the coin turns head. 
 An outcome, $c = 1$ for the random variable $C$ therefore denotes a head on the coin and an outcome $c = 0$ denotes a 
 tail on the coin. Let $\rho$ denote the probability of getting heads on tossing the coin. Choosing a Bernoulli distribution to 
 model this simple coin-toss experiment gives the likelihood below, 
