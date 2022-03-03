@@ -103,8 +103,10 @@ independently, then we can write $L\left(\theta\middle| X\right)=P\left(X\middle
 Taking log on both sides gives us the log-likelihood, $l\left(\theta\right)=logL\left(\theta\middle| X\right)=\sum_{x\in X} log P\left(x\middle|\theta\right)$. 
 This also converts the pesky product terms to manageable sum of log terms over all the data samples. The log-likelihood is the 
 quantity that is then maximized wrt $\theta$ to give the maximum likelihood parameter estimate. 
+
 $$ \widehat{\theta_{ML}}=argmax_\theta\sum_{x\in X} log P\left(x\middle|\theta\right) $$
-where $\hat{\theta}_{ML}$ is a single, point estimate for the parameter $\theta$ that is then used to evaluate the probability of 
+
+where $$\hat{\theta}_{ML}$$ is a single, point estimate for the parameter $\theta$ that is then used to evaluate the probability of 
 a new datapoint $\widetilde{x}$ given the training data $X$ by $p\left(\widetilde{x}\middle| X\right)=p\left(\widetilde{x}\middle|\widehat{\theta_{ML}}\right)$.
 
 Let us consider a simple coin-toss experiment as an example. Let $C$ denote the random variable that the coin turns head. 
