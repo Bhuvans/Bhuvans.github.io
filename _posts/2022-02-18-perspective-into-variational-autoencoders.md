@@ -146,7 +146,7 @@ Note that like in the case of maximum likelihood estimation we have avoided comp
 parameter $$\theta$$ that maximizes the posterior. This is because the denominator $$P\left(X\right)$$ is a constant when maximizing 
 the posterior with respect to $$\theta$$. After taking log and summing the quantity over all the datapoints, this is equivalent to 
 $$\widehat{\theta_{MAP}}=argmax_\theta\{\sum_{x\in X} log p\left(x\middle|\theta\right)+log\ p\left(\theta\right)\}$$. For the example 
-coin toss experiment, this would take the form of $$argmax_\theta\left\[n^{\left(1\right)}log\rho+n^{\left(0\right)}log\left(1-\rho\right)+\left(\alpha-1\right)log\rho+\left(\beta-1\right)log\left(1-\rho\right)\ +\ CONST.\right\]$$
+coin toss experiment, this would take the form of $$argmax_{\theta} \left\[n^{\left(1\right)}log\rho+n^{\left(0\right)}log\left(1-\rho\right)+\left(\alpha-1\right)log\rho+\left(\beta-1\right)log\left(1-\rho\right)\ +\ CONST.\right\]$$
 Like in the maximum likelihood case, taking the derivative of this objective and equating to zero gives $$\widehat{\rho_{MAP}}=\frac{n^{\left(1\right)}+\alpha-1}{n^{\left(1\right)}+n^{\left(0\right)}+\alpha+\beta-2}$$. 
 $${\hat{\theta}}_{MAP}$$ is also a single, point estimate for the parameter $$\theta$$ that is then used to evaluate the probability 
 of a new datapoint $$\widetilde{x}$$ given the training data $$X$$ by $$p\left(\widetilde{x}\middle| X\right)=p\left(\widetilde{x}\middle|\widehat{\theta_{MAP}}\right)$$.
@@ -199,6 +199,7 @@ where $$\mu$$, the mean and $$\sigma^2$$, the variance are the parameters of the
 For a $$D$$-dimensional vector $$x$$, the multivariate gaussian takes the form, 
 
 $$ \mathcal{N}\left(x\middle|\mu,\Sigma\right)=\frac{1}{\left(2\pi\right)^\frac{D}{2}}\frac{1}{\left|\Sigma\right|^\frac{1}{2}}exp\{-{\frac{1}{2}\left(x-\mu\right)}^T\Sigma^{-1}\left(x-\mu\right)\} $$
+
 where $$\mu$$ is a $$D$$-dimensional mean vector, $$\Sigma$$ is a $$D\times D$$ covariance matrix, and $$\left|\Sigma\right|$$ denotes the 
 determinant of $$\Sigma$$.
 
