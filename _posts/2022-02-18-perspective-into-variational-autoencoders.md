@@ -133,7 +133,7 @@ A gaussian is a bad choice for the parameter $$\rho$$ which only takes values in
 distribution of $$\rho$$ would be a beta distribution that spans only over the $$[0, 1]$$ domain. The probability distribution 
 for a beta distribution is as follows: 
 
-$$ Beta(\rho|\alpha,\beta)=P(\rho|\alpha,\beta) = \frac{1}{B(\alpha,\beta)} \rho^{\alpha-1}(1-\rho)^{\beta-1}$$. 
+$$ Beta(\rho | \alpha,\beta)=P(\rho | \alpha,\beta) = \frac{1}{B(\alpha,\beta)} \rho^{\alpha-1}(1-\rho)^{\beta-1}$$. 
 
 Here $$B\left(\alpha,\beta\right)$$ is the beta function defined by $$\frac{\Gamma\left(\alpha+\beta\right)}{\Gamma\left(\alpha\right)\Gamma\left(\beta\right)}=\frac{1}{B\left(\alpha,\beta\right)}$$. 
 For eg. $$Beta\left(\rho\middle|1,\ 1\right)$$ reduces to a uniform distribution or a non-informative prior. An informative prior 
