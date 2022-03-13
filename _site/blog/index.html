@@ -10,8 +10,34 @@
     <meta name="description" content="This is the personal website of Bhuvaneswari S which posts her tech blogs.">
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="/blog/">
-    <link rel="alternate" type="application/rss+xml" title="Bhuvaneswari S" href="/feed.xml" />
+    <link rel="canonical" href="http://localhost:4000/blog/">
+    <link rel="alternate" type="application/rss+xml" title="Bhuvaneswari S" href="http://localhost:4000/feed.xml" />
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                // ...options...
+            });
+        });
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath:[['$$', '$$']],
+        processEscapes: true},
+        "HTML-CSS": { fonts: ["TeX"] }
+        });
+    </script>
+    <script type="text/javascript"
+      src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML,
+      /javascripts/MathJaxLocal.js">
+    </script>
 
     <link href='https://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
 </head>
@@ -52,6 +78,26 @@
     <p>Here is the much awaited blog.</p>
 
 <ul class="listing">
+
+  
+  
+    
+    <li class="listing-seperator">2022</li>
+  
+  <li class="listing-item">
+    <time datetime="2022-02-18">2022-02-18</time>
+    <a href="/blog/2022/02/18/perspective-into-variational-autoencoders" title="Perspective into Variational Autoencoders">Perspective into Variational Autoencoders</a>
+  </li>
+
+  
+  
+    
+    <li class="listing-seperator">2021</li>
+  
+  <li class="listing-item">
+    <time datetime="2021-09-06">2021-09-06</time>
+    <a href="/blog/2021/09/06/pytorch-vs-tensorflowv2-on-mnist" title="Pytorch vs TensorFlow v2 on a MNIST classification task">Pytorch vs TensorFlow v2 on a MNIST classification task</a>
+  </li>
 
   
   

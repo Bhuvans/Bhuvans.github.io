@@ -6,11 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Bhuvaneswari S :: CV</title>
+    <title>Bhuvaneswari S :: About</title>
     <meta name="description" content="This is the personal website of Bhuvaneswari S which posts her tech blogs.">
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="http://localhost:4000/cv/">
+    <link rel="canonical" href="http://localhost:4000/">
     <link rel="alternate" type="application/rss+xml" title="Bhuvaneswari S" href="http://localhost:4000/feed.xml" />
 
     
@@ -72,13 +72,27 @@
 
     <div class="post">
     <header class="post-header">
-        <h1>CV</h1>
+        <h1>About</h1>
     </header>
 
-    <p>Download <a href="http://nitens.org/img/cvtex/cv_template_xetex_caslon.pdf">PDF version</a>. The PDF should be embedded underneath – uses Google Docs for embedding and works if the PDF is on dropbox. Works sporadically if PDF is elsewhere too.</p>
+    <div class="captioned-img alignright">
+    <a href="images/photo.jpg">
+    
+    <img src="images/photo.jpg" width="200" />
+    </a>
+</div>
 
-<iframe src="http://docs.google.com/viewer?url=http://nitens.org/img/cvtex/cv_template_xetex_caslon.pdf&amp;hl=en_US&amp;embedded=true" style="width:100%; height:800px; border:0;" scrolling="no"></iframe>
 
+<<<<<<< HEAD
+Hello, my name is Bhuvaneswari. I work as a Data Scientist with Schlumberger on applications of machine learning useful for the clients of the Oil and Gas Services industry. Prior to this, I completed my Masters in Electrical Engineering from the Indian Institute of Technology Madras where I worked on real world applications of reinforcement learning for balancing control systems. I was fortunate to be advised by Prof. Balaraman Ravindran and Prof. Ramkrishna Pasumarthy for my Masters' project. While at IIT Madras, I took the Reinforcement Learning course offered by Prof. Ravindran. I did not do too well in the course, but my bad grades in the course challenged me to make my Masters' project work. And the success in my Masters' project gave me confidence to pursue study ing RL, and understanding in detail the math fundamentals of the subject with the help of the recorded video lectures of Prof. Ravindran's RL course. And even before this, in my previous birth, I was quite fascinated about micro-controllers and electronic circuits. I pursued them as hobby projects during my undergraduate studies and derived great pleasure out of seeing them kick into action after several failed attempts. 
+=======
+Hello, my name is Bhuvaneswari. I work as a Data Scientist with Schlumberger on applications of machine learning useful for the clients of the Oil and Gas Services industry. Prior to this, I completed my Masters in Electrical Engineering from the Indian Institute of Technology Madras where I worked on real world applications of reinforcement learning for balancing control systems. I was fortunate to be advised by Prof. Balaraman Ravindran and Prof. Ramkrishna Pasumarthy for my Masters' project. The success in my Masters' project gave me confidence to pursue studying RL, and understand in detail the math fundamentals of the subject with the help of the recorded video lectures of Prof. Ravindran's RL course. And even before this in my undergraduate days, I was quite fascinated about micro-controllers and electronic circuits. I pursued them as hobby projects and derived great pleasure out of seeing them kick into action after several failed attempts. 
+>>>>>>> 2a49ac03025236cd394ef815b89af55508916728
+
+
+This is my [LinkedIn] page.  
+
+[LinkedIn]: https://www.linkedin.com/in/bhuvaneswari-s-07217955/
 
 </div>
 

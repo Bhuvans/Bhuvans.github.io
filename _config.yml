@@ -21,7 +21,7 @@ mailchimp-list: ''
 # Set 'provider' to false to turn analytics off globally.
 #
 kramdown:
-  math_engine: katex
+  math_engine: mathjax
 
 analytics:
     provider: false

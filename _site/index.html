@@ -10,8 +10,34 @@
     <meta name="description" content="This is the personal website of Bhuvaneswari S which posts her tech blogs.">
 
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="/">
-    <link rel="alternate" type="application/rss+xml" title="Bhuvaneswari S" href="/feed.xml" />
+    <link rel="canonical" href="http://localhost:4000/">
+    <link rel="alternate" type="application/rss+xml" title="Bhuvaneswari S" href="http://localhost:4000/feed.xml" />
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                // ...options...
+            });
+        });
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath:[['$$', '$$']],
+        processEscapes: true},
+        "HTML-CSS": { fonts: ["TeX"] }
+        });
+    </script>
+    <script type="text/javascript"
+      src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML,
+      /javascripts/MathJaxLocal.js">
+    </script>
 
     <link href='https://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
 </head>
@@ -56,7 +82,7 @@
     </a>
 </div>
 
-<p>Hello, my name is Bhuvaneswari. I work as a Data Scientist with Schlumberger on applications of machine learning useful for the clients of the Oil and Gas Services industry. Prior to this, I completed my Masters in Electrical Engineering from the Indian Institute of Technology Madras where I worked on real world applications of reinforcement learning for balancing control systems. I was fortunate to be advised by Prof. Balaraman Ravindran and Prof. Ramkrishna Pasumarthy for my Masters’ project. While at IIT Madras, I took the Reinforcement Learning course offered by Prof. Ravindran. I did not do too well in the course, but my bad grades in the course challenged me to make my Masters’ project work. And the success in my Masters’ project gave me confidence to pursue studying RL, and understanding in detail the math fundamentals of the subject with the help of the recorded video lectures of Prof. Ravindran’s RL course. And even before this, in my previous birth, I was quite fascinated about micro-controllers and electronic circuits. I pursued them as hobby projects during my undergraduate studies and derived great pleasure out of seeing them kick into action after several failed attempts.</p>
+<p>Hello, my name is Bhuvaneswari. I work as a Data Scientist with Schlumberger on applications of machine learning useful for the clients of the Oil and Gas Services industry. Prior to this, I completed my Masters in Electrical Engineering from the Indian Institute of Technology Madras where I worked on real world applications of reinforcement learning for balancing control systems. I was fortunate to be advised by Prof. Balaraman Ravindran and Prof. Ramkrishna Pasumarthy for my Masters’ project. The success in my Masters’ project gave me confidence to pursue studying RL, and understand in detail the math fundamentals of the subject with the help of the recorded video lectures of Prof. Ravindran’s RL course. And even before this in my undergraduate days, I was quite fascinated about micro-controllers and electronic circuits. I pursued them as hobby projects and derived great pleasure out of seeing them kick into action after several failed attempts.</p>
 
 <p>This is my <a href="https://www.linkedin.com/in/bhuvaneswari-s-07217955/">LinkedIn</a> page.</p>
 
