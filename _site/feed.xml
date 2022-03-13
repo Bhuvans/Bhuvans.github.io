@@ -5,8 +5,8 @@
     <description>This is the personal website of Bhuvaneswari S which posts her tech blogs.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 13 Mar 2022 15:12:31 -0500</pubDate>
-    <lastBuildDate>Sun, 13 Mar 2022 15:12:31 -0500</lastBuildDate>
+    <pubDate>Sun, 13 Mar 2022 15:26:12 -0500</pubDate>
+    <lastBuildDate>Sun, 13 Mar 2022 15:26:12 -0500</lastBuildDate>
     <generator>Jekyll v3.9.0</generator>
     
       <item>
@@ -636,7 +636,7 @@ to obtain the more elegant variational inference framework that computes a full 
 Moving forward we will be looking at the following in order:&lt;/li&gt;
   &lt;li&gt;Building concepts in variational inference (ELBO loss).&lt;/li&gt;
   &lt;li&gt;Variational inference solution for a gaussian mixture.&lt;/li&gt;
-  &lt;li&gt;VAEs as the variational inference solver that uses neural network models for the probability distributions involved 
+  &lt;li&gt;VAEs as the variational inference solver that uses neural network models for the posterior and the likelihood probability distributions 
 and minimizes the ELBO loss, which is a sum of a squared error loss(at the output of the VAE’s decoder network) and a 
 KL divergence loss (at the output of the VAE’s encoder network and a sampled Z). Note that a simple autoencoder only minimizes 
 a simple squared error loss, which is equivalent to modelling the data as a single gaussian because the log likelihood of a gaussian 
