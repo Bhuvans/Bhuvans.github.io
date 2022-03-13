@@ -209,3 +209,57 @@ determinant of $\Sigma$.
 Given a data set $\mathcal{X}=\left(x_1,x_2,\ldots,x_N\right)^T$ in which the observations $\{x_n\}$ are assumed to be drawn independently from a 
 multivariate Gaussian distribution, we can estimate the parameters of the distribution by maximum likelihood. The log likelihood function is given by 
 
+$$ ln\ p\left(X\middle|\mu,\Sigma\right)=-\frac{ND}{2}ln\left(2\pi\right)-\frac{N}{2}ln\left|\Sigma\right|-\frac{1}{2}\sum_{n=1}^{N}{\left(x_n-\mu\right)^T\Sigma^{-1}\left(x_n-\mu\right)} $$
+
+The derivative of the log likelihood with respect to $\mu$ is given by 
+
+$$ \frac{\partial}{\partial\mu}ln\ p\left(X\middle|\mu,\Sigma\right)=\sum_{n=1}^{N}{\Sigma^{-1}\left(x_n-\mu\right)} $$
+
+Setting this derivative to zero, we obtain the solution for the maximum likelihood estimate of the mean given by 
+
+$$ \mu_{ML}=\frac{1}{N}\sum_{n=1}^{N}x_n $$
+
+which is the mean of the observed data points. The maximization of the log likelihood with respect to $\Sigma$ is rather more involved since there is a symmetry constraint on the covariance 
+matrix $\Sigma$. The simplest approach is to ignore the constraint and show that the resulting solution is symmetric as required. The result is as expected and takes the form
+
+$$ \Sigma_{ML}=\frac{1}{N}\sum_{n=1}^{N}{\left(x_n-\mu_{ML}\right)\left(x_n-\mu_{ML}\right)^T} $$
+
+This expression involves $\mu_{ML}$ because it is the result of a joint maximization with respect to $\mu$ and 
+$\Sigma$. Note that the solution for $\mu_{ML}$ does not depend on $\Sigma_{ML}$, and so we can first evaluate 
+$\mu_{ML}$ and then use this to evaluate $\Sigma_{ML}$.
+
+##### Mixtures of Gaussians
+
+While the Gaussian distribution has some important analytical properties, it suffers from significant limitations 
+when it comes to modelling real data sets that are invariably multimodal having multiple dominant clumps in the 
+data distribution. A simple Gaussian is unimodal and is unable to capture this structure, whereas a linear superposition 
+of two or more Gaussians can characterize such a data set better. Such superpositions, formed by taking linear 
+combinations of more basic distributions such as Gaussians, can be formulated as probabilistic models known as 
+mixture distributions. We can visualize how powerful such mixture distributions can be in modelling real data. 
+By using a sufficient number of Gaussians, and by adjusting their means and covariances as well as the coefficients 
+in the linear combination, almost any continuous density can be approximated to arbitrary accuracy. We therefore 
+consider a superposition of $K$ Gaussian densities of the form
+
+$$ p\left(x\right)=\sum_{k=1}^{K}{\pi_k\mathcal{N}\left(x\middle|\mu_k,\Sigma_k\right)} $$
+
+which is called a mixture of Gaussians or a Gaussian Mixture Model (GMM). Each Gaussian density 
+$\mathcal{N}\left(x\middle|\mu_k,\Sigma_k\right)$ is called a component of the mixture and has its own mean $\mu_k$ 
+and covariance $\Sigma_k$. The parameters $\pi_k$ are called the mixing coefficients. If we integrate both the sides 
+of the above equation with respect to $x$, and note that both $p\left(x\right)$ and the individual Gaussian components 
+are normalized, we obtain
+
+$$ \sum_{k=1}^{K}\pi_k=1 $$
+
+Also, the requirement that $p\left(x\right)\geq 0$, together with $\mathcal{N}\left(x\middle|\mu_k,\Sigma_k\right)\geq0$, implies $\pi_k\geq0$ for all $k$. 
+Combining the two conditions on $\pi_k$ gives $0\le\pi_k\le1$. We therefore see that the mixing coefficients satisfy the requirements to be probabilities.
+
+The form of the Gaussian mixture distribution is governed by the parameters $\pi$, $\mu$ and $\Sigma$, where we have 
+used the notation $\pi\equiv\{\pi_1,\ldots,\pi_K\}$, $\mu\equiv\{\mu_1,\ldots,\mu_K\}$ and $\Sigma\equiv\{\Sigma_1,\ldots,\Sigma_K\}$ 
+with $K$ being the number of mixture components. One way to set the values of these parameters is to use maximum likelihood. The log of the likelihood is given by
+
+$$ ln\ p\left(X\middle|\pi,\mu,\Sigma\right)=\sum_{n=1}^{N}ln\{\sum_{k=1}^{K}{\pi_k\mathcal{N}}\left(x_n\middle|\mu_k,\Sigma_k\right)\} $$
+
+where $X=\{x_1,\ldots,x_N\}$. Notice that maximizing this expression is more complex than with a single Gaussian due to 
+the presence of the summation over $k$ inside the logarithm. As a result, the maximum likelihood solution for the 
+parameters no longer has a closed-form analytical solution.
+
