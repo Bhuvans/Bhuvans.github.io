@@ -372,6 +372,245 @@ with $K$ being the number of mixture components. One way to set the values of th
 the presence of the summation over $k$ inside the logarithm. As a result, the maximum likelihood solution for the 
 parameters no longer has a closed-form analytical solution.</p>
 
+<h5 id="maximum-likelihood-for-mixtures-of-gaussians">Maximum likelihood for mixtures of Gaussians</h5>
+
+<p>We have seen that the Gaussian mixture distribution can be written as a linear superposition of Gaussians in the form</p>
+
+\[p\left(x\right)=\sum_{k=1}^{K}{\pi_k\mathcal{N}\left(x\middle|\mu_k,\Sigma_k\right)}\]
+
+<p>Writing the expression for the log of the likelihood for a mixture of Gaussians</p>
+
+\[ln\ p\left(X\middle|\pi,\mu,\Sigma\right)=\sum_{n=1}^{N}ln\{\sum_{k=1}^{K}{\pi_k\mathcal{N}\left(x_n\middle|\mu_k,\Sigma_k\right)\}}\]
+
+<p>Setting the derivatives of $ln\ p\left(X\middle|\pi,\mu,\Sigma\right)$ with respect to the means $\mu_k$ of the Gaussian components to zero, 
+we obtain</p>
+
+\[0=-\sum_{n=1}^{N}\frac{\pi_k\mathcal{N}\left(x_n\middle|\mu_k,\Sigma_k\right)}{\sum_{j}{\pi_j\mathcal{N}\left(x_n\middle|\mu_j,\Sigma_j\right)}}\Sigma_k\left(x_n-\mu_k\right)\]
+
+\[=-\sum_{n=1}^{N}{\gamma\left(z_{nk}\right)\Sigma_k\left(x_n-\mu_k\right)}\]
+
+<p>The $\gamma\left(z_{nk}\right)$ are called responsibilities and are in fact posterior probabilities $p\left(z_{nk}=1\middle| x\right)$ 
+that can be found using the Bayes’ theorem</p>
+
+\[\gamma\left(z_{nk}\right)\equiv p\left(z_{nk}=1\middle| x_n\right)\]
+
+\[=\frac{p\left(z_{nk}=1\right)p\left(x_n\middle| z_{nk}=1\right)}{\sum_{j=1}^{K}{p\left(z_{nj}=1\right)p\left(x_n\middle| z_{nj}=1\right)}}\]
+
+\[=\frac{\pi_k\mathcal{N}\left(x_n\middle|\mu_k,\Sigma_k\right)}{\sum_{j=1}^{K}{\pi_j\mathcal{N}\left(x_n\middle|\mu_j,\Sigma_j\right)}}\]
+
+<p>Coming back to the maximization, we have</p>
+
+\[0=-\sum_{n=1}^{N}{\gamma\left(z_{nk}\right)\Sigma_k\left(x_n-\mu_k\right)}\]
+
+<p>Multiplying by $\Sigma_k^{-1}$ (which we assume to be non-singular) and rearranging we obtain</p>
+
+\[\mu_k=\frac{1}{N_k}\sum_{n=1}^{N}{\gamma\left(z_{nk}\right)x_n}\]
+
+<p>where we have defined $\ N_k=\sum_{n=1}^{N}\gamma\left(z_{nk}\right)$, $N_k$ can be interpreted as the effective number of data points assigned to cluster $k$.
+Now let us try to set the derivative of $ln\ p\left(X\middle|\pi,\mu,\Sigma\right)$ with respect to $\Sigma_k$ to zero, 
+and follow a similar line of reasoning, making use of the result for the maximum likelihood solution for the covariance matrix of a single Gaussian, we obtain</p>
+
+\[\Sigma_k=\frac{1}{N_k}\sum_{n=1}^{N}{\gamma\left(z_{nk}\right)\left(x_n-\mu_k\right)\left(x_n-\mu_k\right)^T}\]
+
+<p>Finally, we maximize $ln\ p\left(X\middle|\pi,\mu,\Sigma\right)$ with respect to the mixing coefficients $\pi_k$. 
+Here we must take account of the constraint $\sum_{k=1}^{K}\pi_k=1$ which requires the mixing coefficients to sum to one. 
+This can be achieved using a Lagrange multiplier and by maximizing the following quantity</p>
+
+\[ln\ p\left(X\middle|\pi,\mu,\Sigma\right)+\lambda\left(\sum_{k=1}^{K}\pi_k-1\right)\]
+
+<p>which gives</p>
+
+\[0=\sum_{n=1}^{N}\frac{\mathcal{N}\left(x_n\middle|\mu_k,\Sigma_k\right)}{\sum_{j}{\pi_j\mathcal{N}\left(x_n\middle|\mu_j,\Sigma_j\right)}}+\ \lambda\]
+
+<p>Where again we see the appearance of the responsibilities. If we now multiply both sides by $\pi_k$ and sum over $k$ making use of the constraint 
+$\sum_{k=1}^{K}\pi_k=1$, we find $\lambda=\ -N$. Using this to eliminate $\lambda$ and rearranging we obtain the 
+following expression for the mixing coefficients</p>
+
+\[\pi_k=\frac{N_k}{N}\]
+
+<p>Thus we have obtained expressions for the parameters $\pi_k$, $\mu_k$ and $\Sigma_k$ for all $k\ =\ 1\ldots K$. 
+It is worth emphasizing that the result expressions do not constitute a closed form solution for the parameters of the mixture 
+model because the responsibilities $\gamma\left(z_{nk}\right)$ depend on those parameters in a complex way by its definition equation 
+which we saw earlier in this section. However, these results do suggest a simple iterative scheme for finding a solution to the maximum 
+likelihood problem, which as we shall see turns out to be an instance of the Expectation Maximization(EM) algorithm for the particular 
+case of the Gaussian mixture model. We first choose some initial values for the means, covariances and mixing 
+coefficients. Then we alternate between the following two updates as shown in the algorithm below</p>
+
+<h5 id="em-for-gaussian-mixtures">EM for Gaussian mixtures</h5>
+
+<p>Given a Gaussian mixture model, the goal is to maximize the likelihood function with respect to the parameters (comprising the means and covariances of the components and the mixing coefficients).</p>
+
+<p>Step 1. Initialize the means $\mu_k$, covariances $\Sigma_k$ and mixing coefficients $\pi_k$, and evaluate the initial value of the log likelihood.
+Step 2. The E step. Evaluate the responsibilities using the current parameter values.</p>
+
+\[\gamma\left(z_{nk}\right)=\frac{\pi_k\mathcal{N}\left(x_n\middle|\mu_k,\Sigma_k\right)}{\sum_{j=1}^{K}{\pi_j\mathcal{N}\left(x_n\middle|\mu_j,\Sigma_j\right)}}\]
+
+<p>Step 3. The M step. Re-estimate the parameters using the current responsibilities.</p>
+
+\[\mu_k^{new}=\frac{1}{N_k}\sum_{n=1}^{N}{\gamma\left(z_{nk}\right)x_n}\]
+
+\[\Sigma_k^{new}=\frac{1}{N_k}\sum_{n=1}^{N}{\gamma\left(z_{nk}\right)\left(x_n-\mu_k^{new}\right)\left(x_n-\mu_k^{new}\right)^T}\]
+
+\[\pi_k^{new}=\frac{N_k}{N}\]
+
+<p>where</p>
+
+\[N_k=\sum_{n=1}^{N}\gamma\left(z_{nk}\right)\]
+
+<p>Step 4. Evaluate the log likelihood</p>
+
+\[ln\ p\left(X\middle|\mu,\Sigma,\pi\right)=\sum_{n=1}^{N}ln\{\sum_{k=1}^{K}{\pi_k\mathcal{N}\left(x_n\middle|\mu_k,\Sigma_k\right)\}}\]
+
+<p>and check for convergence of either the parameters or the log likelihood. If the convergence criterion is not satisfied return to step 2.</p>
+
+<p>In the later sections we shall show that each update to the parameters resulting from an E step followed by an M step is guaranteed 
+to increase the log likelihood function. In practice, the algorithm is deemed to have converged when the change in the log likelihood 
+function, or alternatively in the parameters, falls below some threshold.</p>
+
+<p>Till now, we motivated the Gaussian mixture model as a simple linear superposition of Gaussian components aimed 
+at providing a richer class of density models than the single Gaussian. We now turn to a latent variable view of 
+mixture distributions in which the discrete latent variables can be interpreted as defining assignments of data 
+points to specific components of the mixture. This will provide us with a deeper insight into this important 
+distribution and will also serve to motivate the expectation-maximization algorithm. Note in this context that a 
+general technique for finding maximum likelihood estimators in latent variable models is the expectation-maximization(EM) 
+algorithm.</p>
+
+<p>Let us now see how Gaussian mixtures can be interpreted in terms of latent random variables. For that, let us first 
+understand the process of generating a sample from a gaussian mixture distribution and try to emulate that through 
+a probabilistic graphical model. A typical procedure to sample from a Gaussian mixture would be to first pick a mixture 
+component $k$ from the $K$ mixture components with probability $\pi_k$ following which a Gaussian associated with the $k\ th$ 
+component having mean $\mu_k$ and covariance $\Sigma_k$ is sampled to generate an observation. To give an example in the 
+context of the coin-toss experiment, consider the case where there are multiple coins each one having its own unique 
+probability of showing a head. The data given to us is just a sequence of observations of Heads or Tails that turned up 
+in the experiment without information about which coin was tossed to give that observation. Here, the identity of the coin 
+becomes a hidden or latent random variable and the observation of the Heads or Tails that is given in the data becomes the 
+observed random variable.</p>
+
+<p>Consider the graphical representation below of this mixture model involving two random variables, $X$ and $Z$. 
+$X$ is a continuous random variable and $Z$ is a discrete random variable.</p>
+
+<p>Now consider the graphical representation of the specific case of the Gaussian mixture model. Here $\pi$, $\mu$ and $\Sigma$ 
+are the parameters of the model, and $N$ in the bottom right corner of the square box denotes that this dependency relation 
+between $Z$ and $X$ holds independently for all the $N$ points in the data set.</p>
+
+<p>In particular, $Z$ for each data point is a $K$- dimensional binary random variable having a $1-of-K$ representation in 
+which a particular element $z_k$ is equal to $1$ and all other elements are equal to $0$. The values of $z_k$ therefore 
+satisfy $z_k\ \in{0,\ 1}$ and $\sum_{k} z_k=1$, and we see that there are $K$ possible states for the vector $z$ according 
+to which element is nonzero. We are also given that $p\left(z_k=1\right)=\pi_k$. This means that we could now model $Z$ through 
+a categorical  distribution. $X$ is a continuous random variable generated by sampling from a normal distribution 
+$\mathcal{N}\left(x\middle|\mu_k,\Sigma_k\right)$ depending on the mixture component $k$ that was picked. Looking at the entire 
+graphical model as a single, blackbox probability distribution that generates samples $x$, we have considered $X$ as the continuous 
+random variable that is observed and $Z$ as the discrete random variable that is latent or ‘hidden’ in the observations. In the case 
+of a Gaussian mixture model, the latent variable denotes the mixture component that was chosen to generate the observation $x$.</p>
+
+<p>The distribution of $z$ can be written as</p>
+
+\[p\left(z\right)=\prod_{k=1}^{K}\pi_k^{z_k}\]
+
+<p>where $z=\left(z_1,z_2,\ldots,z_K\right)$ is a categorical random variable with success probabilities defined by $p\left(z_k=1\right)=\pi_k$ 
+such that the parameters $\pi_k$ must satisfy $0\le\pi_k\le1$ and $\sum_{k=1}^{K}\pi_k=1$ to be valid probabilities.</p>
+
+<p>Similarly, the conditional distribution of $x$ given a particular value for $z$ is a Gaussian</p>
+
+\[p\left(x\middle| z_k=1\right)=\mathcal{N}\left(x\middle|\mu_k,\Sigma_k\right)\]
+
+<p>This can also be written in the form</p>
+
+\[p\left(x\middle| z\right)=\prod_{k=1}^{K}{\mathcal{N}\left(x\middle|\mu_k,\Sigma_k\right)}^{z_k}\]
+
+<p>The joint distribution is given by $p\left(x,z\right)=p\left(z\right)p\left(x\middle| z\right)$, and the marginal distribution of $x$ 
+is then obtained by summing the joint distribution over all possible states of $z$ to give</p>
+
+\[p\left(x\right)=\sum_{z}{p\left(z\right)p\left(x\middle| z\right)}=\sum_{k=1}^{K}{\pi_k\mathcal{N}\left(x\middle|\mu_k,\Sigma_k\right)}\]
+
+<p>Thus, the marginal distribution of $x$ is a Gaussian mixture! If we have several observations $x_1,x_2,\ldots,x_N$, then, because we have 
+represented the marginal distribution in the form $p\left(x,z\right)=\sum_{z} p\left(x,z\right)$, it follows that for every observed data point 
+$x_n$, there is a corresponding latent variable $z_n$.</p>
+
+<p>We have therefore found an equivalent formulation of the Gaussian mixture involving an explicit latent variable $z$. 
+Following in this paragraph are some points to ponder about the role of latent variables from our discussion above. 
+The primary role of the latent variables is to allow a complicated distribution over the observed variables to be 
+represented in terms of a model constructed from simpler conditional distributions. If we define a joint distribution 
+over observed and latent variables, the corresponding distribution of the observed variables alone is obtained by 
+marginalization. This allows relatively complex marginal distributions over observed variables to be expressed in 
+terms of more tractable joint distributions over the expanded space of observed and latent variables. The introduction 
+of latent variables thereby allows complicated distributions to be formed from simpler components.</p>
+
+<h3 id="the-em-algorithm-in-general">The EM algorithm in General</h3>
+
+<p>In the previous section, we discussed in detail the steps of the EM algorithm to find the maximum likelihood solution for 
+the specific case of Gaussian mixture models. We also followed that up with illustrating how a Gaussian mixture model can 
+be interpreted in terms of a probabilistic graphical model with an explicit latent variable. In this section, we will try 
+to provide an intuitive (and beautiful!) proof of the EM algorithm in general for any general probabilistic model with latent 
+variables. Consider such a model in which we collectively denote all of the observed variables by $X$ and all of the latent or 
+hidden variables by $Z$. The joint distribution $p\left(X,Z\middle|\theta\right)$ is governed by a set of parameters denoted $\theta$. 
+Our goal is to maximize the likelihood function that is given by</p>
+
+\[p\left(X\middle|\theta\right)=\sum_{Z}{p\left(X,Z\middle|\theta\right)}\]
+
+<p>Here we are assuming $Z$ is discrete, although the discussion is identical if $Z$ comprises continuous variables or a combination of 
+discrete and continuous variables, with summation replaced by integration as appropriate. We shall suppose that direct optimization of 
+$p\left(X\middle|\theta\right)$ is difficult, but that optimization of the complete-data log likelihood function $p\left(X,Z\middle|\theta\right)$ 
+is significantly easier.</p>
+
+<p>Next, we introduce a distribution $q\left(Z\right)$ defined over the latent variables, and we observe that for any choice of $q\left(Z\right)$, 
+the following decomposition relation holds,</p>
+
+\[ln\ p(X|\theta)\ =\ \mathcal{L}(q,\ \theta)\ +\ KL(q||p)\]
+
+<p>where we have defined</p>
+
+\[\mathcal{L}\left(q,\theta\right)=\sum_{Z} q\left(Z\right)ln\{\frac{p\left(X,Z\middle|\theta\right)}{q\left(Z\right)}\}\]
+
+\[KL(q||p)\ =\ -\ \sum_{Z}{q\left(Z\right)ln\ \{\frac{p\left(Z\middle| X,\theta\right)}{q\left(Z\right)}\}}\]
+
+<p>Note that $\mathcal{L}\left(q,\theta\right)$ is a functional  of the distribution $q\left(Z\right)$, and a function of the 
+parameters $\theta$. Also, to verify that the above decomposition holds, we first make use of the product rule of probability 
+to give</p>
+
+\[ln\ p\left(X,Z\middle|\theta\right)=ln\ p\left(Z\middle| X,\theta\right)+ln\ p\left(X\middle|\theta\right)\]
+
+<p>which we then substitute into the expression for $\mathcal{L}\left(q,\theta\right)$. This gives rise to two terms, one of which 
+cancels $KL(q||p)$ while the other gives the required log likelihood $ln\ p\left(X\middle|\theta\right)$ after noting that 
+$q\left(Z\right)$ is a normalized distribution that sums to $1$. Also note that $KL(q||p)$ is the Kullback-Leibler divergence 
+between $q\left(Z\right)$ and the posterior distribution $p\left(Z\middle| X,\theta\right)$. Recall that the Kullback-Leibler 
+divergence satisfies $KL(q||p)\ \geq0$, with equality if, and only if, $q\left(Z\right)=p\left(Z\middle| X,\theta\right)$. It 
+therefore follows from the decomposition relation for $ln\ p\left(X\middle|\theta\right)$ that $\mathcal{L}\left(q,\theta\right)\le ln\ p\left(X\middle|\theta\right)$, 
+in other words that $\mathcal{L}\left(q,\theta\right)$ is a lower bound on $lnp\left(X\middle|\theta\right)$.</p>
+
+<p>The EM algorithm is a two-stage iterative optimization technique for finding maximum likelihood solutions. We can use the 
+decomposition relation for $ln\ p\left(X\middle|\theta\right)$ discussed above to define the EM algorithm and to demonstrate 
+that it does indeed maximize the log likelihood.</p>
+
+<p>Suppose that the current value of the parameter vector is $\theta^{old}$. In the E step, the lower bound 
+$\mathcal{L}\left(q,\theta^{old}\right)$ is maximized with respect to $q\left(Z\right)$ while holding $\theta^{old}$ 
+fixed. The solution to this maximization problem is easily seen by noting that the value of $ln\ p\left(X\middle|\theta^{old}\right)$ 
+does not depend on $q\left(Z\right)$ and so the largest value of $\mathcal{L}\left(q,\theta^{old}\right)$ will occur when the 
+Kullback-Leibler divergence vanishes, in other words when $q\left(Z\right)$ is equal to the posterior distribution 
+$p\left(Z\middle| X,\theta^{old}\right)$. In this case, the lower bound will equal the log likelihood, as illustrated in the figure below.</p>
+
+<p>In the subsequent M step, the distribution $q\left(Z\right)$ is held fixed and the lower bound $\mathcal{L}\left(q,\theta\right)$ is 
+maximized with respect to $\theta$ to give some new value $\theta^{new}$. This will cause the lower bound $\mathcal{L}$ to increase 
+(unless it is already at a maximum), which will necessarily cause the corresponding log likelihood function to increase. Because the 
+distribution $q$ is determined using the old parameter values rather than the new values and is held fixed during the M step, it will 
+not equal the new posterior distribution $p\left(Z\middle| X,\theta^{new}\right)$, and hence there will be a nonzero KL divergence. 
+The increase in the log likelihood function is therefore greater than the increase in the lower bound, as shown in figure below.</p>
+
+<p>If we substitute $q\left(Z\right)=p\left(Z\middle| X,\theta^{old}\right)$ into the expression for $\mathcal{L}\left(q,\theta\right)$ 
+defined after the decomposition relation listed earlier, we see that after the E step, the lower bound takes the form</p>
+
+\[\mathcal{L}\left(q,\theta\right)=\sum_{Z}{p\left(Z\middle| X,\theta^{old}\right)ln}p\left(X,Z\middle|\theta\right)-\sum_{Z}{p\left(Z\middle| X,\theta^{old}\right)ln}p\left(Z\middle| X,\theta^{old}\right)\]
+
+\[=\mathcal{Q}\left(\theta,\theta^{old}\right)\ +\ const\]
+
+<p>where the constant is simply the negative entropy of the $q$ distribution and is therefore independent of $\theta$. 
+Thus, in the M step, the quantity that is being maximized is the expectation of the complete-data log likelihood, as 
+we saw earlier in the specific case of mixture of Gaussians. Note that the variable $\theta$ over which we are optimizing 
+appears only inside the logarithm. If the joint distribution $p\left(Z\middle| X,\theta\right)$ comprises a member of the 
+exponential family, or a product of such members, then we see that the logarithm will cancel the exponential and lead to 
+an M step that will typically be much simpler than the maximization of the corresponding incomplete-data log likelihood function 
+$p\left(X\middle|\theta\right)$.</p>
+
 
 
     
