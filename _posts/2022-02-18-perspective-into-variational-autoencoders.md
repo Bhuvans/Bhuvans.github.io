@@ -502,4 +502,108 @@ exponential family, or a product of such members, then we see that the logarithm
 an M step that will typically be much simpler than the maximization of the corresponding incomplete-data log likelihood function 
 $p\left(X\middle|\theta\right)$.
 
+The operation of the EM algorithm can also be viewed in the parameter space, as illustrated in the figure below.
 
+Here the red curve depicts the (incomplete data) log likelihood function whose value we wish to maximize. We start with some 
+initial parameter value $\theta^{old}$, and in the first E step we evaluate the posterior distribution over latent variables, 
+which gives rise to a lower bound $\mathcal{L}\left({\theta,\ \theta}^{old}\right)$ whose value equals the log likelihood at 
+$\theta^{old}$, as shown by the blue curve. Note that the bound makes a tangential contact with the log likelihood at 
+$\theta^{old}$, so that both curves have the same gradient. This bound is a convex function having a unique maximum (for mixture 
+components from the exponential family). In the M step, the bound is maximized giving the value $\theta^{new}$, which gives a 
+larger value of log likelihood than $\theta^{old}$. The subsequent E step then constructs a bound that is tangential at $\theta^{new}$ 
+as shown by the green curve.
+
+Thus, we have seen that both the E and the M steps of the EM algorithm are increasing the value of a well-defined bound on the log 
+likelihood function and that the complete EM cycle will change the model parameters in such a way as to cause the log likelihood to 
+increase (unless it is already at a maximum, in which case the parameters remain unchanged). We can also use the EM algorithm to maximize 
+the posterior distribution $p\left(\theta\middle| X\right)$ for models in which we have introduced a prior $p\left(\theta\right)$ over the 
+parameters. To see this, we note that as a function of $\theta$, we have $p\left(\theta\middle| X\right)=p\left(\theta,X\right)/p\left(X\right)$ 
+and so
+
+$$ ln\ p\left(\theta\middle| X\right)=ln\ p\left(\theta,X\right)-ln\ p\left(X\right) $$
+
+Making use of the decomposition relation of $ln\ p\left(X\middle|\theta\right)$ which we saw earlier, we have
+
+$$ ln\ p(\theta|X)\ =\ \mathcal{L}(q,\ \theta)\ +\ KL(q||p)\ +\ ln\ p(\theta)\ -\ ln\ p(X) $$
+
+$$ \geq\mathcal{L}\left(q,\theta\right)+ln\ p\left(\theta\right)-ln\ p\left(X\right) $$
+
+where $ln\ p\left(X\right)$ is a constant. We can again optimize the right-hand side alternately with respect to $q$ and 
+$\theta$. The optimization with respect to $q$ gives rise to the same E-step equations as for the standard EM algorithm, 
+because $q$ only appears in $\mathcal{L}\left(q,\theta\right)$. The M-step equations are modified through the introduction 
+of the prior term $ln\ p\left(\theta\right)$, which typically requires only a small modification to the standard maximum 
+likelihood M-step equations.
+
+The EM algorithm therefore breaks down the potentially difficult problem of maximizing the likelihood function into two 
+stages, the E step and the M step, each of which will often prove simpler to implement. Nevertheless, for complex models 
+it may be the case that either the E step or the M step, or indeed both, remain intractable! Let us now list the steps of 
+the EM algorithm for a general probabilistic graphical model.
+
+##### The General EM algorithm
+
+Given a joint distribution $p\left(X,Z\middle|\theta\right)$ over observed variables $X$ and latent variables $Z$, 
+governed by parameters $\theta$, the goal is to maximize the likelihood function $p\left(X\middle|\theta\right)$ with 
+respect to $\theta$.
+
+Step 1. Choose an initial setting for the parameters $\theta^{old}$.
+Step 2. E step: Evaluate $p\left(Z\middle| X,\theta^{old}\right)$
+Step 3. M step: Evaluate $\theta^{new}$ given by
+
+$$ \theta^{new}=argmax_\theta\ \mathcal{Q}\left(\theta,\theta^{old}\right) $$
+
+where 
+
+$$ \mathcal{Q}\left(\theta,\theta^{old}\right)=\sum_{Z}{p\left(Z\middle| X,\theta^{old}\right)ln}p\left(X,Z\middle|\theta\right) $$
+
+Step 4. Check for convergence of either the log likelihood or the parameter values. If the convergence criterion is not satisfied, 
+then let $\theta^{old}\gets\theta^{new}$ and return to step 2.
+
+Here we have considered the use of the EM algorithm to maximize a likelihood function when there are discrete 
+latent variables. However, it can also be applied when the unobserved variables correspond to missing values in 
+the data set and used for missing data imputation in such incomplete datasets.
+
+At this point, it should be emphasized that there will generally be multiple local maxima of the log likelihood 
+function and that EM will find one of them and not necessarily guaranteed to find the largest of these maxima. 
+Also, it is worth emphasizing that there is a significant problem associated with the maximum likelihood framework 
+applied to Gaussian mixture models, due to the presence of singularities. For simplicity, consider a Gaussian 
+mixture whose components have covariance matrices given by $\Sigma_k={\sigma_k}^2I$, where $I$ is the unit matrix, 
+although the conclusions will hold for general (non-diagonal or non-identity matrices) covariance matrices. Suppose 
+that one of the components of the mixture model, let us say the $jth$ component, has its mean $\mu_j$ exactly equal 
+to one of the data points so that $\mu_j=x_n$ for some value of $n$. This data point will then contribute a term in 
+the likelihood function of the form  $\mathcal{N}\left(x_n\middle| x_n,{\sigma_j}^2I\right)=\frac{1}{\left(2\pi\right)^{1/2}}\frac{1}{\sigma_j}$. 
+If we consider the limit $\sigma_j\rightarrow0$, then we see that this term goes to infinity and so the log likelihood 
+function is not a well posed problem because such singularities will always be present and will occur whenever one of the 
+Gaussian components ‘collapses’ onto a specific data point. Recall that this problem did not arise in the case of a single 
+Gaussian distribution. To understand the difference, note that if a single Gaussian collapses onto a data point it will 
+contribute multiplicative factors to the likelihood function arising from the other data points and these factors will go 
+to zero exponentially fast, giving an overall likelihood that goes to zero rather than infinity. However once we have at 
+least two components in the mixture, one of the components can have a finite variance and therefore assign finite probability 
+to all of the data points while the other component can shrink onto one specific data point and thereby contribute an ever 
+increasing additive value to the log likelihood as illustrated in the figure below.
+
+These singularities provide an example of the severe over-fitting that can occur in a maximum likelihood approach. We shall see 
+that this difficulty does not occur if we adopt a full Bayesian approach. In the next section, we will see how EM can be generalized 
+to obtain the more elegant variational inference framework that computes a full Bayesian solution to the parameter estimation problem.
+
+To summarize the document till this point, this is what we have been doing till now in order. We
+1.	looked at the need for modelling data with probability distributions in machine learning
+2.	got to know that there are different types of probability distributions available to model discrete/continuous valued data as random variables 
+3.	looked at the 3 techniques for parameter estimation to fit the given data to those probability distributions ie. estimate the parameters of the probability distribution to be able to explain (or model) the given data. The 3 techniques were maximum likelihood, maximum a posteriori and full Bayesian estimation 
+4.	looked at the Gaussian and motivated the need for mixture models like the mixture of Gaussians to fit complex real-world data 
+5.	applied the maximum likelihood parameter estimation method to the mixture of gaussians and found that a closed form analytical solution was difficult to arrive at, and proposed the EM algorithm as a technique that can be used to find maximum likelihood solutions to mixture models
+6.	interpreted mixture models in terms of the more general framework of probabilistic graphical models with latent variables. 
+7.	derived the EM algorithm for a general latent variable graphical model and written down the EM algorithm in general for any latent variable model.
+8.	Problems with EM and the maximum likelihood solution for the parameter estimation problem and an assurance that the variational inference framework would resolve this.   
+Moving forward we will be looking at the following in order: 
+1.	Building concepts in variational inference (ELBO loss).
+2.	Variational inference solution for a gaussian mixture.
+3.  VAEs as the variational inference solver that uses neural network models for the probability distributions involved 
+and minimizes the ELBO loss, which is a sum of a squared error loss(at the output of the VAE's decoder network) and a 
+KL divergence loss (at the output of the VAE's encoder network and a sampled Z). Note that a simple autoencoder only minimizes 
+a simple squared error loss, which is equivalent to modelling the data as a single gaussian because the log likelihood of a gaussian 
+distribution reduces to a simple squared difference between the data and the mean of the gaussian, which is exactly equivalent to the 
+squared error loss we are trying to minimize in a neural network. Whereas a VAE models the data as a more powerful mixture of gaussian
+distributions by trying to minimize the ELBO loss!! If nothing else made sense in this entire blog except this single point, then you have 
+grabbed the essence of the VAEs :-)   
+
+...to be continued
