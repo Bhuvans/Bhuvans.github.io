@@ -246,8 +246,16 @@ for a beta distribution is as follows:</p>
 
 \[Beta\left(\rho\middle|\alpha,\beta\right)=P\left(\rho\middle|\alpha,\beta\right)=\frac{1}{B\left(\alpha,\beta\right)}\rho^{\alpha-1}\left(1-\rho\right)^{\beta-1}\]
 
-<p>Here $B\left(\alpha,\beta\right)$ is the beta function defined by $\frac{\Gamma\left(\alpha+\beta\right)}{\Gamma\left(\alpha\right)\Gamma\left(\beta\right)}=\frac{1}{B\left(\alpha,\beta\right)}$. 
-For eg. $Beta\left(\rho\middle|1,\ 1\right)$ reduces to a uniform distribution or a non-informative prior. An informative prior 
+<p>Here $B\left(\alpha,\beta\right)$ is the beta function defined by $\frac{\Gamma\left(\alpha+\beta\right)}{\Gamma\left(\alpha\right)\Gamma\left(\beta\right)}=\frac{1}{B\left(\alpha,\beta\right)}$.</p>
+
+<div class="captioned-img aligncenter">
+    <a href="/images/beta_distribution.jpg">
+    
+    <img src="/images/beta_distribution.jpg" width="800" />
+    </a>Figure 1: Beta distribution. The beta distribution is defined on $[0, 1]$ and has parameters $\left(\alpha,\beta\right)$ whose relative values determine the expected value so $\mathcal{E}\left(\rho\right)=\frac{\alpha}{\alpha+\beta}$ (numbers in parentheses show the $\alpha$, $\beta$ for each curve). As the absolute values of $\left(\alpha,\beta\right)$ increase, the concentration around $\mathcal{E}\left(\rho\right)$ increases. a) $\mathcal{E}\left(\rho\right) = 0.5$ for each curve, concentration varies. b) $\mathcal{E}\left(\rho\right)\ =\ 0.25$ c) $\mathcal{E}\left(\rho\right)\ =\ 0.75$
+</div>
+
+<p>For eg. $Beta\left(\rho\middle|1,\ 1\right)$ reduces to a uniform distribution or a non-informative prior. An informative prior 
 to encode a fair coin in our example could be denoted by say, $Beta\left(\rho\middle|5,\ 5\right)$. Note that the $\alpha$ 
 and $\beta$ parameters of the beta distribution act like pseudo-counts of the outcomes, ie. the Heads and Tails of the coin toss 
 experiment.</p>
@@ -361,6 +369,13 @@ are normalized, we obtain</p>
 
 <p>Also, the requirement that $p\left(x\right)\geq 0$, together with $\mathcal{N}\left(x\middle|\mu_k,\Sigma_k\right)\geq0$, implies $\pi_k\geq0$ for all $k$. 
 Combining the two conditions on $\pi_k$ gives $0\le\pi_k\le1$. We therefore see that the mixing coefficients satisfy the requirements to be probabilities.</p>
+
+<div class="captioned-img aligncenter">
+    <a href="/images/mixture_of_gaussians.jpg">
+    
+    <img src="/images/mixture_of_gaussians.jpg" width="800" />
+    </a>Figure 2: Illustration of a mixture of 3 Gaussians in a two-dimensional space. a)Contours of constant density for each of the mixture components, in which the 3 components are denoted red, blue and green, and the values of the mixing coefficients are shown below each component. b) Contours of the marginal probability density $p(x)$ of the mixture distribution. c)A surface plot of the distribution $p(x)$.
+</div>
 
 <p>The form of the Gaussian mixture distribution is governed by the parameters $\pi$, $\mu$ and $\Sigma$, where we have 
 used the notation $\pi\equiv{\pi_1,\ldots,\pi_K}$, $\mu\equiv{\mu_1,\ldots,\mu_K}$ and $\Sigma\equiv{\Sigma_1,\ldots,\Sigma_K}$ 

@@ -10,5 +10,3 @@ http://localhost:4000/research/
 http://localhost:4000/sitemap.txt
 
 http://localhost:4000/blog/2022/02/18/perspective-into-variational-autoencoders
-http://localhost:4000/blog/2021/09/06/pytorch-vs-tensorflowv2-on-mnist
-http://localhost:4000/blog/2016/02/08/Chewbaca-is-talking-in-his-sleep

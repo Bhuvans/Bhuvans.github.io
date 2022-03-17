@@ -5,8 +5,8 @@
     <description>This is the personal website of Bhuvaneswari S which posts her tech blogs.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 13 Mar 2022 17:18:17 -0500</pubDate>
-    <lastBuildDate>Sun, 13 Mar 2022 17:18:17 -0500</lastBuildDate>
+    <pubDate>Wed, 16 Mar 2022 23:44:10 -0500</pubDate>
+    <lastBuildDate>Wed, 16 Mar 2022 23:44:10 -0500</lastBuildDate>
     <generator>Jekyll v3.9.0</generator>
     
       <item>
@@ -168,8 +168,16 @@ for a beta distribution is as follows:&lt;/p&gt;
 
 \[Beta\left(\rho\middle|\alpha,\beta\right)=P\left(\rho\middle|\alpha,\beta\right)=\frac{1}{B\left(\alpha,\beta\right)}\rho^{\alpha-1}\left(1-\rho\right)^{\beta-1}\]
 
-&lt;p&gt;Here $B\left(\alpha,\beta\right)$ is the beta function defined by $\frac{\Gamma\left(\alpha+\beta\right)}{\Gamma\left(\alpha\right)\Gamma\left(\beta\right)}=\frac{1}{B\left(\alpha,\beta\right)}$. 
-For eg. $Beta\left(\rho\middle|1,\ 1\right)$ reduces to a uniform distribution or a non-informative prior. An informative prior 
+&lt;p&gt;Here $B\left(\alpha,\beta\right)$ is the beta function defined by $\frac{\Gamma\left(\alpha+\beta\right)}{\Gamma\left(\alpha\right)\Gamma\left(\beta\right)}=\frac{1}{B\left(\alpha,\beta\right)}$.&lt;/p&gt;
+
+&lt;div class=&quot;captioned-img aligncenter&quot;&gt;
+    &lt;a href=&quot;/images/beta_distribution.jpg&quot;&gt;
+    
+    &lt;img src=&quot;/images/beta_distribution.jpg&quot; width=&quot;800&quot; /&gt;
+    &lt;/a&gt;Figure 1: Beta distribution. The beta distribution is defined on $[0, 1]$ and has parameters $\left(\alpha,\beta\right)$ whose relative values determine the expected value so $\mathcal{E}\left(\rho\right)=\frac{\alpha}{\alpha+\beta}$ (numbers in parentheses show the $\alpha$, $\beta$ for each curve). As the absolute values of $\left(\alpha,\beta\right)$ increase, the concentration around $\mathcal{E}\left(\rho\right)$ increases. a) $\mathcal{E}\left(\rho\right) = 0.5$ for each curve, concentration varies. b) $\mathcal{E}\left(\rho\right)\ =\ 0.25$ c) $\mathcal{E}\left(\rho\right)\ =\ 0.75$
+&lt;/div&gt;
+
+&lt;p&gt;For eg. $Beta\left(\rho\middle|1,\ 1\right)$ reduces to a uniform distribution or a non-informative prior. An informative prior 
 to encode a fair coin in our example could be denoted by say, $Beta\left(\rho\middle|5,\ 5\right)$. Note that the $\alpha$ 
 and $\beta$ parameters of the beta distribution act like pseudo-counts of the outcomes, ie. the Heads and Tails of the coin toss 
 experiment.&lt;/p&gt;
@@ -283,6 +291,13 @@ are normalized, we obtain&lt;/p&gt;
 
 &lt;p&gt;Also, the requirement that $p\left(x\right)\geq 0$, together with $\mathcal{N}\left(x\middle|\mu_k,\Sigma_k\right)\geq0$, implies $\pi_k\geq0$ for all $k$. 
 Combining the two conditions on $\pi_k$ gives $0\le\pi_k\le1$. We therefore see that the mixing coefficients satisfy the requirements to be probabilities.&lt;/p&gt;
+
+&lt;div class=&quot;captioned-img aligncenter&quot;&gt;
+    &lt;a href=&quot;/images/mixture_of_gaussians.jpg&quot;&gt;
+    
+    &lt;img src=&quot;/images/mixture_of_gaussians.jpg&quot; width=&quot;800&quot; /&gt;
+    &lt;/a&gt;Figure 2: Illustration of a mixture of 3 Gaussians in a two-dimensional space. a)Contours of constant density for each of the mixture components, in which the 3 components are denoted red, blue and green, and the values of the mixing coefficients are shown below each component. b) Contours of the marginal probability density $p(x)$ of the mixture distribution. c)A surface plot of the distribution $p(x)$.
+&lt;/div&gt;
 
 &lt;p&gt;The form of the Gaussian mixture distribution is governed by the parameters $\pi$, $\mu$ and $\Sigma$, where we have 
 used the notation $\pi\equiv{\pi_1,\ldots,\pi_K}$, $\mu\equiv{\mu_1,\ldots,\mu_K}$ and $\Sigma\equiv{\Sigma_1,\ldots,\Sigma_K}$ 
@@ -652,48 +667,6 @@ grabbed the essence of the VAEs :-)&lt;/li&gt;
         <link>http://localhost:4000/blog/2022/02/18/perspective-into-variational-autoencoders</link>
         <guid isPermaLink="true">http://localhost:4000/blog/2022/02/18/perspective-into-variational-autoencoders</guid>
         
-        
-      </item>
-    
-      <item>
-        <title>Pytorch vs TensorFlow v2 on a MNIST classification task</title>
-        <description>
-</description>
-        <pubDate>Mon, 06 Sep 2021 00:00:00 -0500</pubDate>
-        <link>http://localhost:4000/blog/2021/09/06/pytorch-vs-tensorflowv2-on-mnist</link>
-        <guid isPermaLink="true">http://localhost:4000/blog/2021/09/06/pytorch-vs-tensorflowv2-on-mnist</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>Chewybaca is talking in his sleep</title>
-        <description>&lt;p&gt;Lorem ipsum dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.&lt;/p&gt;
-
-&lt;p&gt;Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.&lt;/p&gt;
-
-&lt;p&gt;Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.&lt;/p&gt;
-
-&lt;p&gt;Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.&lt;/p&gt;
-
-&lt;p&gt;Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis.&lt;/p&gt;
-
-&lt;p&gt;At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr,  At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.&lt;/p&gt;
-
-&lt;p&gt;Consetetur sadipscing elitr,  sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr,  sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.&lt;/p&gt;
-</description>
-        <pubDate>Mon, 08 Feb 2016 00:00:00 -0600</pubDate>
-        <link>http://localhost:4000/blog/2016/02/08/Chewbaca-is-talking-in-his-sleep</link>
-        <guid isPermaLink="true">http://localhost:4000/blog/2016/02/08/Chewbaca-is-talking-in-his-sleep</guid>
-        
-        
-        <category>banter</category>
-        
-        <category>thoughts</category>
-        
-        <category>dreams</category>
-        
-        <category>fears</category>
         
       </item>
     
