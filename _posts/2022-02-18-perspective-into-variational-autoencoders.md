@@ -256,7 +256,7 @@ $$ \sum_{k=1}^{K}\pi_k=1 $$
 Also, the requirement that $p\left(x\right)\geq 0$, together with $\mathcal{N}\left(x\middle|\mu_k,\Sigma_k\right)\geq0$, implies $\pi_k\geq0$ for all $k$. 
 Combining the two conditions on $\pi_k$ gives $0\le\pi_k\le1$. We therefore see that the mixing coefficients satisfy the requirements to be probabilities.
 
-{% include image.html url="/images/mixture_of_gaussians.jpg" caption="Figure 2: Illustration of a mixture of 3 Gaussians in a two-dimensional space. a)Contours of constant density for each of the mixture components, in which the 3 components are denoted red, blue and green, and the values of the mixing coefficients are shown below each component. b) Contours of the marginal probability density $p(x)$ of the mixture distribution. c)A surface plot of the distribution $p(x)$." width="800" height="350" max_width="200px" align="center" %}
+{% include image.html url="/images/mixture_of_gaussians.jpg" caption="Figure 2: Illustration of a mixture of 3 Gaussians in a two-dimensional space. a)Contours of constant density for each of the mixture components, in which the 3 components are denoted red, blue and green, and the values of the mixing coefficients are shown below each component. b) Contours of the marginal probability density $p(x)$ of the mixture distribution. c)A surface plot of the distribution $p(x)$." width="800" height="350" max_width="400px" align="center" %}
 
 The form of the Gaussian mixture distribution is governed by the parameters $\pi$, $\mu$ and $\Sigma$, where we have 
 used the notation $\pi\equiv\{\pi_1,\ldots,\pi_K\}$, $\mu\equiv\{\mu_1,\ldots,\mu_K\}$ and $\Sigma\equiv\{\Sigma_1,\ldots,\Sigma_K\}$ 
@@ -385,9 +385,13 @@ observed random variable.
 Consider the graphical representation below of this mixture model involving two random variables, $X$ and $Z$. 
 $X$ is a continuous random variable and $Z$ is a discrete random variable.
 
+{% include image.html url="/images/joint_marginal_distr.jpg" caption="Figure 3: Graphical representation of a mixture model, in which the joint distribution is expressed in the form $p(x,z) = p(z)p(x|z)$" width="500" height="350" max_width="400px" align="center" %}
+
 Now consider the graphical representation of the specific case of the Gaussian mixture model. Here $\pi$, $\mu$ and $\Sigma$ 
 are the parameters of the model, and $N$ in the bottom right corner of the square box denotes that this dependency relation 
 between $Z$ and $X$ holds independently for all the $N$ points in the data set.
+
+{% include image.html url="/images/gmm.jpg" caption="Figure 4: Graphical representation of a Gaussian mixture model" width="500" height="350" max_width="400px" align="center" %}
 
 In particular, $Z$ for each data point is a $K$- dimensional binary random variable having a $1-of-K$ representation in 
 which a particular element $z_k$ is equal to $1$ and all other elements are equal to $0$. The values of $z_k$ therefore 
@@ -474,6 +478,8 @@ divergence satisfies $KL(q||p)\ \geq0$, with equality if, and only if, $q\left(Z
 therefore follows from the decomposition relation for $ln\ p\left(X\middle|\theta\right)\$ that $\mathcal{L}\left(q,\theta\right)\le ln\ p\left(X\middle|\theta\right)$, 
 in other words that $\mathcal{L}\left(q,\theta\right)$ is a lower bound on $lnp\left(X\middle|\theta\right)$.
 
+{% include image.html url="/images/em_proof_1.jpg" caption="Figure 5: Illustration of the decomposition relation for $ln p(X|\theta)$" width="400" height="300" max_width="400px" align="center" %}
+
 The EM algorithm is a two-stage iterative optimization technique for finding maximum likelihood solutions. We can use the 
 decomposition relation for $ln\ p\left(X\middle|\theta\right)$ discussed above to define the EM algorithm and to demonstrate 
 that it does indeed maximize the log likelihood.
@@ -485,12 +491,16 @@ does not depend on $q\left(Z\right)$ and so the largest value of $\mathcal{L}\le
 Kullback-Leibler divergence vanishes, in other words when $q\left(Z\right)$ is equal to the posterior distribution 
 $p\left(Z\middle| X,\theta^{old}\right)$. In this case, the lower bound will equal the log likelihood, as illustrated in the figure below. 
 
+{% include image.html url="/images/em_proof_2.jpg" caption="Figure 6: Illustration of the E step of the EM algorithm" width="500" height="300" max_width="400px" align="center" %}
+
 In the subsequent M step, the distribution $q\left(Z\right)$ is held fixed and the lower bound $\mathcal{L}\left(q,\theta\right)$ is 
 maximized with respect to $\theta$ to give some new value $\theta^{new}$. This will cause the lower bound $\mathcal{L}$ to increase 
 (unless it is already at a maximum), which will necessarily cause the corresponding log likelihood function to increase. Because the 
 distribution $q$ is determined using the old parameter values rather than the new values and is held fixed during the M step, it will 
 not equal the new posterior distribution $p\left(Z\middle| X,\theta^{new}\right)$, and hence there will be a nonzero KL divergence. 
 The increase in the log likelihood function is therefore greater than the increase in the lower bound, as shown in figure below.
+
+{% include image.html url="/images/em_proof_3.jpg" caption="Figure 7: Illustration of the M step of the EM algorithm" width="500" height="300" max_width="400px" align="center" %}
 
 If we substitute $q\left(Z\right)=p\left(Z\middle| X,\theta^{old}\right)$ into the expression for $\mathcal{L}\left(q,\theta\right)$ 
 defined after the decomposition relation listed earlier, we see that after the E step, the lower bound takes the form
@@ -508,6 +518,8 @@ an M step that will typically be much simpler than the maximization of the corre
 $p\left(X\middle|\theta\right)$.
 
 The operation of the EM algorithm can also be viewed in the parameter space, as illustrated in the figure below.
+
+{% include image.html url="/images/em_proof_4.jpg" caption="Figure 8: Illustration of the EM in the parameter space$" width="400" height="350" max_width="400px" align="center" %}
 
 Here the red curve depicts the (incomplete data) log likelihood function whose value we wish to maximize. We start with some 
 initial parameter value $\theta^{old}$, and in the first E step we evaluate the posterior distribution over latent variables, 
