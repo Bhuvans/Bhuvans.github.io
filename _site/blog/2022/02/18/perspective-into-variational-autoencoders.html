@@ -754,6 +754,20 @@ least two components in the mixture, one of the components can have a finite var
 to all of the data points while the other component can shrink onto one specific data point and thereby contribute an ever 
 increasing additive value to the log likelihood as illustrated in the figure below.</p>
 
+<div class="captioned-img aligncenter">
+    <a href="/images/gaussian_likelihood.jpg">
+    
+    <img src="/images/gaussian_likelihood.jpg" width="300" />
+    </a>Figure 9: Illustration of the likelihood function for a Gaussian distribution shown by the red curve. The black points denote the data set of values $\{x_n\}$ and the likelihood function given by $p\left(X\middle|\mu,\sigma^2\right)=\prod_{n=1}^{N}{\mathcal{N}\left(x_n\middle|\mu,\sigma^2\right)}$ corresponds to the product of the blue values. Maximizing the likelihood involves adjusting the mean and variance so as to maximize this product.
+</div>
+
+<div class="captioned-img aligncenter">
+    <a href="/images/gmm_likelihood_singularity.jpg">
+    
+    <img src="/images/gmm_likelihood_singularity.jpg" width="300" />
+    </a>Figure 10: Illustration of how singularities in the likelihood function arise with mixtures of Gaussians given by $p\left(x\right)=\prod_{n=1}^{N}\sum_{k=1}^{K}{\pi_k\mathcal{N}\left(x\middle|\mu_k,\mathrm{\Sigma}_k\right)}$
+</div>
+
 <p>These singularities provide an example of the severe over-fitting that can occur in a maximum likelihood approach. We shall see 
 that this difficulty does not occur if we adopt a full Bayesian approach. In the next section, we will see how EM can be generalized 
 to obtain the more elegant variational inference framework that computes a full Bayesian solution to the parameter estimation problem.</p>
@@ -781,7 +795,250 @@ distributions by trying to minimize the ELBO loss!! If nothing else made sense i
 grabbed the essence of the VAEs :-)</li>
 </ol>
 
-<p>…to be continued</p>
+<h3 id="variational-inference">Variational Inference</h3>
+<p>A central task in the application of probabilistic models is the evaluation of the posterior distribution $p\left(Z\middle| X\right)$ of the 
+latent variables given the observed data variables $X$, and the evaluation of expectations computed with respect to this distribution. For instance, 
+in the EM algorithm we needed to evaluate the expectation of the complete-data log likelihood with respect to the posterior distribution of the 
+latent variables. For many models of practical interest, it will be infeasible to evaluate the posterior distribution or to compute expectations 
+with respect to this distribution. This could be because the dimensionality of the latent space is too high to work with directly or because the 
+posterior distribution has a highly complex form for which expectations are not analytically tractable. In such situations, we need to resort to 
+approximation schemes, and these fall broadly into two classes, according to whether they rely on stochastic or deterministic approximations.</p>
+
+<p>Stochastic approximations like Markov Chain Monte Carlo are sampling based methods and generally have the property that given infinite computational 
+resource, they can generate exact results, and the approximation arises from the use of finite amount of processor time. In practice, sampling 
+methods can be computationally demanding, often limiting their use to small-scale problems. Also, it can be difficult to know whether a sampling 
+scheme is generating independent samples from the required distribution. Deterministic approximation schemes, on the other hand scale well to large 
+applications. These are based on analytical approximations to the posterior distribution, for example by assuming that it factorizes in a particular 
+way or that it has a specific parametric form such as a Gaussian. As such, they can never generate exact results, and so their strengths and weaknesses 
+are complementary to those of sampling-based methods.</p>
+
+<p>Variational methods have their origins in the work on the calculus of variations. Standard calculus is concerned with finding derivatives of 
+functions, which takes in a value of the input variable and returns the value of the function as the output. Optimizing (ie. maximizing or minimizing) 
+the function would then require analyzing the derivative of the function with respect to the input variable to see how the output value varies with 
+infinitesimal changes to the input value. A functional is defined as a mapping that takes a function as the input and returns the value of the 
+functional as the output. An example would be the entropy $H[p]$, which takes a probability distribution $p\left(x\right)$ as the input and returns 
+the quantity $H[p]=\int p\left(x\right)lnp\left(x\right)dx$ as the output. We can now similarly introduce the concept of a functional derivative 
+which expresses how the value of the functional changes in response to infinitesimal changes to the input function. Calculus of variations deals 
+with the problem of optimizing a functional and finds a solution by exploring all possible input functions to find the one that maximizes, or 
+minimizes, the functional.</p>
+
+<p>And although there is nothing intrinsically approximate about variational methods, they do naturally lend themselves to finding approximate 
+solutions. This is done by restricting the range of functions over which the optimization is performed, for instance by considering only quadratic 
+functions or by considering functions composed of a linear combination of fixed basis functions in which only the coefficients of the linear 
+combination can vary. Now let us consider how the concept of variational optimization can be applied to a probabilistic inference problem.</p>
+
+<p>Suppose we have a fully Bayesian model in which all the parameters, nee $\theta$, are given prior distributions. The model may also have latent 
+variables in addition to the parameters, and we shall denote the set of all latent variables and parameters by $Z$. Similarly, we denote the set of 
+all observed variables by $X$. For example, we might have a set of $N$ independent, identically distributed data, for which $X={x_1,\ldots,x_N}$ 
+and $Z={z_1,\ldots,z_N}$. Our probabilistic model specifies the joint distribution $p\left(X,Z\right)$ and our goal is to find an approximation 
+for the posterior distribution $p\left(Z\middle| X\right)$ as well as for the model evidence $p\left(X\right)$. As in our discussion of EM, we can 
+decompose the log marginal probability using</p>
+
+\[ln\ p\left(X\right)=\mathcal{L}(q)\ +\ KL(q || p)\]
+
+<p>where we have defined</p>
+
+\[\mathcal{L}\left(q\right)=\int q\left(Z\right)ln\{\frac{p\left(X,Z\right)}{q\left(Z\right)}\}dZ\]
+
+\[KL(q||p)\ =\ -\int q\left(Z\right)ln\{\frac{p\left(Z|X\right)}{q\left(Z\right)}\}\ dZ\]
+
+<p>This differs from our discussion of EM only in that the parameter vector $\theta$ no longer appears, because the parameters are now stochastic 
+random variables and are absorbed into $Z$. Since in this chapter we will mainly be interested in continuous variables we have used integrations 
+rather than summations in formulating this decomposition. However, the analysis goes through unchanged if some or all of the variables are discrete 
+simply by replacing the integrations with summations as required. As before, we can maximize the lower bound $\mathcal{L}\left(q\right)$ by 
+optimization with respect to the distribution $q\left(Z\right)$, which is equivalent to minimizing the KL divergence. If we allow any possible 
+choice for $q\left(Z\right)$, then the maximum of the lower bound occurs when the KL divergence vanishes, which occurs when $q\left(Z\right)$ 
+equals the posterior distribution $p\left(Z\middle| X\right)$. However, we shall suppose that the model is such that working with the true posterior 
+distribution is intractable.</p>
+
+<p>We therefore consider instead a restricted family of distributions $q\left(Z\right)$ and then seek a member of this family for which the KL divergence 
+is minimized. Our goal is to restrict the family sufficiently that they comprise only tractable distributions, while at the same time allowing the family 
+to be sufficiently rich and flexible that it can provide a good approximation to the true posterior distribution. It is important to emphasize that 
+the restriction is imposed purely to achieve tractability, and that subject to this requirement we should use as rich a family of approximating 
+distributions as possible.</p>
+
+<p>One way to restrict the family of approximating distributions is to use a parametric distribution $q\left(Z\middle|\omega\right)$ governed by a 
+set of parameters $\omega$. The lower bound $\mathcal{L}\left(q\right)$ then becomes a function of $\omega$, and we can exploit standard optimization 
+techniques to determine the optimal values for the parameters. An alternative way to restrict the family of approximating distributions 
+$q\left(Z\right)$ is by imposing a factorization constraint as explained below.</p>
+
+<p>Suppose we partition the elements of $Z$ into disjoint groups that we denote by $Z_i$ where $i\ =\ 1,\ldots,\ M$. We then assume that the $q$ distribution 
+factorizes with respect to these groups, so that</p>
+
+<p>$q\left(Z\right)=\prod_{i=1}^{M}{q_i\left(Z_i\right)}$</p>
+
+<p>It should be emphasized that we are making no further assumptions about the distribution. In particular, we place no restriction on the functional 
+forms of the individual factors $q_i\left(Z_i\right)$. This factorized form of variational inference corresponds to an approximation framework 
+developed in physics called the mean field theory.</p>
+
+<p>Amongst all the distributions $q\left(Z\right)$ having the above factorized form we now seek that distribution for which the lower bound 
+$\mathcal{L}\left(q\right)$ is largest. We therefore wish to make a free-form (variational) optimization of $\mathcal{L}\left(q\right)$ with respect 
+to all of the distributions $q_i\left(Z_i\right)$, which we do by optimizing with respect to each of the factors in turn. To achieve this, we first 
+substitute the above factorized form of $q\left(Z\right)$ into the equation for $\mathcal{L}\left(q\right)$ and then dissect out the dependence on 
+one of the factors $q_j\left(Z_j\right)$. Denoting $q_j\left(Z_j\right)$ by simply $q_j$ to keep the notation uncluttered, we then obtain</p>
+
+\[\mathcal{L}\left(q\right)=\int{\prod_{i}{q_i\ \{ln}p\left(X,Z\right)}-\sum_{i} l n q_i\}\ dZ\]
+
+\[=\int{q_j\{\int l n p\left(X,Z\right)\prod_{i\neq j}{q_idZ_i}}\}\ dZ_j-\int{q_jln}q_jdZ_j+const\]
+
+\[=\int{q_jln}\widetilde{p}\left(X,Z_j\right)dZ_j-\int{q_jln}q_jdZ_j+const\]
+
+<p>where we have defined a new distribution $\widetilde{p}\left(X,Z_j\right)$ by the relation</p>
+
+\[ln\widetilde{\ p}\left(X,Z_j\right)=\mathcal{E}_{i\neq j}\left[ln\ p\left(X,Z\right)\right]+const.\]
+
+<p>Here the notation $\mathcal{E}_{i\neq j}[…]$ denotes an expectation with respect to the $q$ distributions over all variables $z_i$ for 
+$i\ \neq j$ so that</p>
+
+\[\mathcal{E}_{i \neq j} \left[ln \ p\left(X,Z\right)\right]=\int ln \ p\left(X,Z\right)\prod_{i\neq j}{q_i dZ_i}\]
+
+<p>Now suppose we keep the ${q_{i\neq j}}$ fixed and maximize $\mathcal{L}\left(q\right)$ in the above derived expression with respect to all 
+possible forms for the distribution $q_j\left(Z_j\right)$. This is easily done by recognizing that this expression for $\mathcal{L}\left(q\right)$ 
+derived above is the negative KL divergence between $q_j\left(Z_j\right)$ and $\widetilde{p}\left(X,Z_j\right)$.</p>
+
+<p>Thus maximizing $\mathcal{L}\left(q\right)$ is equivalent to minimizing the KL divergence, and the minimum occurs when $q_j\left(Z_j\right)=\widetilde{p}\left(X,Z_j\right)$. 
+Thus we obtain a general expression for the optimal solution $q_j^\ast\left(Z_j\right)$ given by</p>
+
+\[ln{\ q}_j^\ast\left(Z_j\right)=\mathcal{E}_{\mathcal{i}\neq\mathcal{j}}[ln\ p\left(X,Z\right)]+const.\]
+
+<p>It is worth taking a few moments to study the form of this solution as it provides the basis for applications of variational methods. It says that 
+the log of the optimal solution for factor $q_j$ is obtained simply by considering the log of the joint distribution over all hidden and visible 
+variables and then taking the expectation with respect to all of the other factors ${q_i}$ for $i\ \neq j$.</p>
+
+<p>The additive constant in the above expression for $ln{\ q}_j^\ast\left(Z_j\right)$ is set by normalizing the distribution $q_j^\ast\left(Z_j\right)$. 
+Thus if we take the exponential of both sides and normalize, we have</p>
+
+\[q_j^\ast\left(Z_j\right)=\frac{exp\left(\mathcal{E}_{\mathcal{i}\neq\mathcal{j}}\left[ln\ p\left(X,Z\right)\right]\right)}{\int{exp\left(\mathcal{E}_{\mathcal{i}\neq\mathcal{j}}[ln\ p\left(X,Z\right)]\right)dZ_j}}\]
+
+<p>In practice, we shall find it more convenient to work with the un-normalized form and then reinstate the normalization constant (where required) by 
+inspection. This will become clear from subsequent examples.</p>
+
+<p>The set of equations given by $ln \ q_j^\ast\left(Z_j\right)=\mathcal{E}_{\mathcal{i}\neq\mathcal{j}}\left[ln\ p\left(X,Z\right)\right]+const$ 
+for $j\ =\ 1,\ldots,\ M$ represent a set of consistency conditions for the maximum of the lower bound subject to the factorization constraint. 
+However they do not represent an explicit solution because the expression on the right hand side of the equation for the optimum $q_j^\ast\left(Z_j\right)$ 
+depends on expectations computed with respect to the other factors $q_i\left(Z_i\right)$ for $i\ \neq j$. We will therefore seek a consistent 
+solution by first initializing all of the factors $q_i\left(Z_i\right)$ appropriately and then cycling through the factors and replacing each in 
+turn with a revised estimate given by the right hand side of the equations evaluated using the current estimates for all of the other factors. 
+Convergence is guaranteed because bound is convex with respect to each of the factors $q_i\left(Z_i\right)$.</p>
+
+<h3 id="variational-autoencoders">Variational Autoencoders</h3>
+<p>In the previous sections, we saw that introduction of latent variables allows complicated distributions to be formed from simpler components by 
+allowing a complex distribution over the observed variables to be represented in terms of simpler conditional distributions involving latent variables. 
+If we define a joint distribution over observed and latent variables, the corresponding distribution of the observed variables alone is obtained by 
+marginalization as follows</p>
+
+\[p\left(X\middle|\theta\right)=\sum_{Z}{p\left(X,Z\middle|\theta\right)}\]
+
+<p>where $X$ denotes the observed variables, $Z$ denotes the latent variables and $\theta$ are the parameters of the joint distribution. It is often 
+the case that for such latent variable probabilistic models, direct optimization of the observed data likelihood $p\left(X\middle|\theta\right)$ is 
+difficult while optimization of the joint distribution’s likelihood $p\left(X,Z\middle|\theta\right)$ is easier. In the example of the Gaussian mixture 
+model, we saw that maximization of the log likelihood led to expressions for the parameters $\pi$, $\mu$ and $\Sigma$ that were not closed form analytical 
+solutions but were dependent on a responsibility term that was in turn dependent on the parameters themselves in a complex relation. At this point, 
+we brought in a cyclic optimization procedure called the EM algorithm and introduced it as a general technique that finds the maximum likelihood solution 
+for latent variable models. Underlying the optimization that EM does is the relation below that we derived earlier in the section on the EM algorithm.</p>
+
+\[ln\ p(X|\theta)\ =\ \mathcal{L}(q,\ \theta)\ +\ KL(q||p)\]
+
+<p>where it was defined</p>
+
+\[\mathcal{L}\left(q,\theta\right)=\sum_{Z} q\left(Z\right)ln\{\frac{p\left(X,Z\middle|\theta\right)}{q\left(Z\right)}\}\]
+
+\[KL(q||p)\ =\ -\ \sum_{Z}{q\left(Z\right)ln\ \{\frac{p\left(Z\middle| X,\theta\right)}{q\left(Z\right)}\}}\]
+
+<p>We showed that $\mathcal{L}\left(q,\theta\right)$ is the lower bound to the log likelihood $ln\ p\left(X\middle|\theta\right)$ as $KL(q||p)\ \geq0$. 
+The idea in the EM algorithm was that since maximizing the log likelihood $ln\ p\left(X\middle|\theta\right)$ was difficult, we could get away with 
+maximizing the lower bound term $\mathcal{L}\left(q,\theta\right)$ that only involves the joint distribution likelihood 
+$ln\ p\left(X,\ Z\middle|\theta\right)$ and hence easier to optimize. This was because a maximized lower bound would result in a maximized 
+log likelihood in the parameter space. The lower bound $\mathcal{L}\left(q,\theta\right)$ also goes by the rather popular name of ELBO, or the Evidence 
+Lower Bound.</p>
+
+<p>The E step of the EM algorithm tries to maximize the ELBO term with respect to the distribution $q$ by zeroing the KL divergence term, ie. by assigning 
+$q\left(Z\right)=p\left(Z\middle| X,\theta\right)$. The M step then tries to maximize the ELBO term with respect to the parameters $\theta$ by a 
+first-order optimization, i.e., by equating its derivative with respect to $\theta$ to zero. The next complication came when in the E step it was 
+not simple enough to compute the posterior distribution $p\left(Z\middle| X,\theta\right)$. We then resorted to variational methods to approximate 
+the posterior through a distribution $q$ defined over the space of latent variables and parameter variables by making certain assumptions on its form 
+like factorizability in groups based on the dependency relations in the underlying probabilistic graphical model. Note that both EM and the variational 
+inference methods were trying to maximize the ELBO term. Now, where does the variational autoencoder figure in here? It is a variational method that 
+maximizes the ELBO (and hence the log likelihood) using a neural network approximator for the posterior and the likelihood probability distributions 
+both for the posterior distribution $q\left(Z\right)$ and the likelihood distribution $p\left(X\middle|Z\right)$.</p>
+
+<p>Note that both the distributions are conditional distributions that we wish to parameterize with neural networks. To illustrate with an example 
+as to what exactly would be the inputs, the outputs and parameters of the neural network, let us consider the image classification task. In image 
+classification, neural networks parameterize a categorical distribution $p_\theta\left(y\middle| x\right)$ over a class label $y$, conditioned on an 
+image $x$.</p>
+
+\[p=NeuralNet\left(x\right)\]
+
+\[p_\theta\left(y\middle| x\right)=Categorical\left(y;p\right)\]
+
+<p>where the last operation of NeuralNet\left(x\right) is a softmax function such that \sum_{i} p_i=1.</p>
+
+<p>Notice here that when used to parameterize conditional distributions, neural networks take as input the variable on which the distribution is conditioned (or the parents of the variable in a directed graphical model), that is x and produce the parameters \eta of the distribution y:</p>
+
+\[\eta=NeuralNet\left(x\right)\]
+
+\[p_\theta\left(y\middle| x\right)=p_\theta(y;\eta)\]
+
+<p>Now let us look into the specifics of the variational autoencoder(VAE). The optimization objective of the VAE is the Evidence Lower Bound 
+or the ELBO term which we tried to maximize in the EM and Variational inference algorithms. As in the first step (the E step) of these algorithms, 
+we will first try to approximate the true posterior distribution $p\left(Z\middle| X\right)$ using $q\left(Z\right)$. For this we use the encoder 
+neural network parameterized by weights and biases $\phi$. The output of the encoder network are the parameters of the approximated posterior 
+distribution $q$, namely the mean $\mu$ and variance $\sigma$.</p>
+
+\[(\mu,log\ \sigma)=EncoderNeuralNet_\phi\left(x\right)\]
+
+\[q_\phi\left(z\middle| x\right)=\mathcal{N}\left(z;\mu,\ \Sigma\right)\]
+
+<p>The notation $q_\phi\left(z\middle| x\right)$ used for the approximated posterior. Unlike variational inference which explicitly imposes 
+the factorizability constraint (or the mean field theory assumption) on the posterior, the VAEs with neural network approximators are tasked 
+to approximate the posterior without making this assumption. In most common VAE architectures, we would however assume the covariance matrix of 
+the posterior be a diagonal matrix for simplicity. Next we will use the decoder neural network to approximate the likelihood 
+$p\left(X\middle| Z\right)$ parameterized by weights and biases of the network, $\theta$. The output of the decoder is the mean of the likelihood 
+distribution while we assume a unit or a constant times unit covariance matrix for the likelihood.</p>
+
+\[\mu_{x|z}=DecoderNeuralNet_\theta\left(x\right)\]
+
+\[p_\theta\left(x\middle| z\right)\ =\ \mathcal{N}(x;\mu_{x|z},\sigma^2I)\]
+
+<p>Let us now look at a typical way in which neural networks can be employed to maximize the ELBO objective function or equivalently minimize a loss 
+function which is negative of the ELBO objective.</p>
+
+<p>Recall that the parameters of the neural network are the weights/biases, $\theta$ of the decoder and the $\phi$ of the encoder. We will now find 
+stochastic estimates of the gradient of the ELBO loss with respect to the parameters and use them to train the VAE network using Stochastic Gradient 
+Descent.</p>
+
+<p>Unbiased stochastic gradients of the ELBO with respect to $\theta$ are simple to obtain:</p>
+
+\[\nabla_\theta\mathcal{L}_{\theta,\phi}\left(x\right)=\nabla_\theta{\ \mathcal{E}}_{q_\phi\left(z\middle| x\right)}\left[logp_\theta\left(x,z\right)-logq_\phi\left(z\middle| x\right)\right]\]
+
+\[={\ \mathcal{E}}_{q_\phi\left(z\middle| x\right)}\left[\nabla_\theta\left(logp_\theta\left(x,z\right)-logq_\phi\left(z\middle| x\right)\right)\right]\]
+
+\[\approx\ \nabla_\theta\left(logp_\theta\left(x,z\right)-logq_\phi\left(z\middle| x\right)\right)\]
+
+\[=\nabla_\theta\left(logp_\theta\left(x,z\right)\right)\]
+
+<table>
+  <tbody>
+    <tr>
+      <td>The third line of the equation is a monte-carlo approximator of the second line when $z$ is a random sample from $q_{\phi}\left(z\middle</td>
+      <td>x\right)$,</td>
+    </tr>
+    <tr>
+      <td>ie., $\mathcal{z} \sim q_{\phi}\left(z\middle</td>
+      <td>x\right)$.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Unbiased gradients with respect to the variational parameters $\phi$ are more difficult to obtain, since the ELBO’s expectation is taken with 
+respect to the distribution $q_\phi\left(z\middle| x\right)$ which is a function of $\phi$.</p>
+
+\[\nabla_\phi\mathcal{L}_{\theta,\phi}\left(x\right)=\nabla_\phi\mathcal{E}_{q_\phi\left(z\middle| x\right)}\left[logp_\theta\left(x,z\right)-logq_\phi\left(z\middle| x\right)\right]\]
+
+\[\neq\mathcal{E}_{q_\phi\left(z\middle| x\right)}\left[\nabla_\phi\left(logp_\theta\left(x,z\right)-logq_\phi\left(z\middle| x\right)\right)\right]\]
+
+<p>In the case when z is a continuous-valued latent variable, we can use a reparameterization trick for computing an unbiased estimate of \nabla_{\theta,\phi}\mathcal{L}_{\theta,\phi}\left(x\right) as we will discuss below .
+…to be continued</p>
 
 
     
