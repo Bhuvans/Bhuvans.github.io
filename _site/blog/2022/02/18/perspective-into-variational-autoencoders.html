@@ -1017,18 +1017,8 @@ Descent.</p>
 
 \[=\nabla_\theta\left(logp_\theta\left(x,z\right)\right)\]
 
-<table>
-  <tbody>
-    <tr>
-      <td>The third line of the equation is a monte-carlo approximator of the second line when $z$ is a random sample from $q_{\phi}\left(z\middle</td>
-      <td>x\right)$,</td>
-    </tr>
-    <tr>
-      <td>ie., $\mathcal{z} \sim q_{\phi}\left(z\middle</td>
-      <td>x\right)$.</td>
-    </tr>
-  </tbody>
-</table>
+<p>The third line of the equation is a monte-carlo approximator of the second line when $z$ is a random sample from $q_{\phi}$, 
+ie., $\mathcal{z} \sim q_{\phi}\left(z\middle|x\right)$.</p>
 
 <p>Unbiased gradients with respect to the variational parameters $\phi$ are more difficult to obtain, since the ELBO’s expectation is taken with 
 respect to the distribution $q_\phi\left(z\middle| x\right)$ which is a function of $\phi$.</p>
@@ -1037,8 +1027,122 @@ respect to the distribution $q_\phi\left(z\middle| x\right)$ which is a function
 
 \[\neq\mathcal{E}_{q_\phi\left(z\middle| x\right)}\left[\nabla_\phi\left(logp_\theta\left(x,z\right)-logq_\phi\left(z\middle| x\right)\right)\right]\]
 
-<p>In the case when z is a continuous-valued latent variable, we can use a reparameterization trick for computing an unbiased estimate of \nabla_{\theta,\phi}\mathcal{L}_{\theta,\phi}\left(x\right) as we will discuss below .
-…to be continued</p>
+<p>In the case when $z$ is a continuous-valued latent variable, we can use a reparameterization trick for computing an unbiased estimate of $\nabla_{\theta,\phi}\mathcal{L}_{\theta,\phi}\left(x\right)$ as we will discuss below.</p>
+
+<h5 id="reparameterization-trick">Reparameterization trick:</h5>
+<p>First, we will express the random variable $\mathcal{z}\sim q_{\phi}\left(z\middle|x\right)$ as some differentiable (and invertible) transformation of another random 
+variable $\epsilon$, given $z$ and $\phi$:</p>
+
+\[z\ =\ g\left(\epsilon,\phi,x\right)\]
+
+\[say, z=\ \mu_{z|x}\left(x\right)+\Sigma_{z|x}^{1/2}\left(x\right)\ast\epsilon\]
+
+<p>where the distribution of random variable $\epsilon$ is independent of $x$ or $\phi$, for eg., $\epsilon\ \sim\mathcal{N}(0,\ I)$.<br />
+$\mu_{z|x}\left(x\right)$ and $\Sigma_{z|x}\left(x\right)$ are respectively the mean and covariances of the approximated posterior $q_\phi\left(z\middle|x\right)$.</p>
+
+<p>Given such a change of variable from $z$ to $\epsilon$, expectations can now be rewritten in terms of $\epsilon$,</p>
+
+\[\mathcal{E}_{q_\phi\left(z\middle|x\right)}\left[f\left(z\right)\right]=\mathcal{E}_{p\left(\epsilon\right)}\left[f\left(z\right)\right]\]
+
+<p>where $z=g\left(\epsilon,\phi,x\right)$. The expectation and gradient operators can then become commutative, and we can form a simple Monte Carlo 
+estimator:</p>
+
+\[\nabla_\phi\mathcal{E}_{q_\phi\left(z\middle|x\right)}\left[f\left(z\right)\right]=\nabla_\phi\mathcal{E}_{p\left(\epsilon\right)}\left[f\left(z\right)\right]\]
+
+\[={\mathcal{E}_{p\left(\epsilon\right)}\ [\nabla}_\phi f(z)]\]
+
+\[\approx\nabla_\phi f\left(z\right); \ z=g\left(\epsilon,\phi,x\right)\]
+
+<p>In the last line $z=g\left(\epsilon,\phi,x\right)$ with random noise sample $\epsilon \sim p\left(\epsilon\right)=\mathcal{N}(0,\ I)$. Under the 
+reparameterization, we can replace an expectation with respect to $q_\phi\left(z\middle| x\right)$ with one with respect to $p\left(\epsilon\right)$. 
+The ELBO can be rewritten as:</p>
+
+\[\mathcal{L}_{\theta,\phi}\left(x\right)=\mathcal{E}_{q_\phi\left(z\middle|x\right)}\left[log{\ p}_\theta\left(x,z\right)-log{\ q}_\phi\left(z\middle| x\right)\right]\]
+
+\[=\mathcal{E}_{p\left(\epsilon\right)}\left[log{\ p}_\theta\left(x,z\right)-log{\ q}_\phi\left(z\middle| x\right)\right]\]
+
+<p>where $z=g\left(\epsilon,\phi,x\right)$. We can now derive the expression for the simple Monte Carlo estimator ${\widetilde{\mathcal{L}}}_{\theta,\phi}\left(x\right)$ 
+of the individual-datapoint ELBO where we use a single noise sample $\epsilon$ from $p\left(\epsilon\right)$:</p>
+
+\[\epsilon\simp\left(\epsilon\right)\]
+
+\[z=g\left(\epsilon,\phi,x\right)\]
+
+\[{\widetilde{\mathcal{L}}}_{\theta,\phi}\left(x\right)=log{\ p}_\theta\left(x,z\right)-log{\ q}_\phi\left(z\middle| x\right)\]
+
+\[{\widetilde{\mathcal{L}}}_{\theta,\phi}\left(x\right)=log{\ p}_\theta\left(x|z\right)+logp\left(z\right)-log{\ q}_\phi\left(z\middle| x\right)\]
+
+<p>This series of operations can be expressed as a symbolic graph in software like Tensorflow or PyTorch and effortlessly differentiated with respect 
+to parameters $\theta$ and $\phi$. Let us now try to further arrive at a simpler expression for ${\widetilde{\mathcal{L}}}_{\theta,\phi}\left(x\right)$ 
+which can be expressed directly in terms of the quantities that are readily obtained from the VAE neural network, namely the means and variance of 
+the posterior and the likelihood distributions computed by the encoder and decoder networks respectively.</p>
+
+<p>Let us now re-derive the expression for the ELBO loss in a variational autoencoder.</p>
+
+\[KL(q||p)\ =\ -\ \sum_{z}{q_\phi\left(z|x\right)log\{\frac{p\left(z\middle| x\right)}{q_\phi\left(z|x\right)}\}}\]
+
+\[=\mathcal{E}_{z\ \sim\ Q}\left[logq_\phi\left(z\middle| x\right)-logp\left(z\middle| x\right)\right]\]
+
+\[=\mathcal{E}_{z\sim\mathcal{Q}}\left[logq_\phi\left(z\middle| x\right)+logp\left(x\right)-logp_\theta\left(x\middle| z\right)-logp\left(z\right)\right]\]
+
+\[=\mathcal{E}_{z\sim\mathcal{Q}}\left[logq_\phi\left(z\middle| x\right)-logp_\theta\left(x\middle| z\right)-logp\left(z\right)\right]+logp\left(x\right)\]
+
+<p>Rearranging this gives,</p>
+
+\[log\ p(X)\ -\ KL(q||p)\ =\ \mathcal{E}_{z\sim\mathcal{Q}}[logp_\theta\left(x\middle| z\right)]-KL(q_\phi\left(z|x\right) || p\left(z\right))\]
+
+<p>where we used the definition of KL divergence to write the right hand side of the above equation. We already know that the left hand side of the 
+above equation is equal to the ELBO term which the VAE is trying to maximize.</p>
+
+<p>Let’s evaluate this general expression for an example VAE. Let the encoder distribution of the VAE be described by 
+$\mu_{z|x},\Sigma_{z|x}\ =\ g_{z|x}\left(x;\phi\right)$ ; $g_{z|x}$ is the neural network with inputs $x$ and weight/bias parameters $\phi$. The 
+encoder models the posterior and therefore, $z|x\ \sim\mathcal{N}(\mu_{z|x\ },\Sigma_{z|x})$. Let the decoder distribution of the VAE be described 
+by $\mu_{x|z\ }\ =\ g_{x|z}\left(z_{1,\ldots,K};\theta\right)$ ; $g_{x|z}$ is the neural network with inputs $z$ and weight/bias parameters $\theta$. 
+The decoder models the likelihood and therefore, $x|z\ \sim\mathcal{N}(\mu_{x|z\ },\sigma^2I)$. Rewriting the ELBO loss gives,</p>
+
+\[log\ p(X)\ -\ KL(q||p)\ =\ \mathcal{E}_{z\sim\mathcal{Q}}[logp_\theta\left(x\middle| z\right)]-KL( q_\phi\left(z|x\right) || p\left(z\right)\]
+
+<p>Let the data points $x$ be sampled iid from the data set $\mathcal{D}$, ie., $x\sim\mathcal{D}$. Then the ELBO loss for the given data set can be 
+written</p>
+
+\[\mathcal{E}_{x\sim\mathcal{D}}\ [log\ p(X)\ -\ KL(q||p)] = E_{x\sim \mathcal{D}}[E_{z∼Q}[log p_\theta \left(x|z\right)]-KL( q_\phi\left(z|x\right) || p\left(z\right)]\]
+
+\[=\mathcal{E}_{x\sim\mathcal{D}}[\mathcal{E}_{\epsilon\sim\mathcal{N}\left(0,I\right)}\left[logp_\theta\left(x\middle| z=\mu_{z|x}\left(x\right)+\Sigma_{z|x}^{1/2}\left(x\right)\ast\epsilon\right)\right]\ -\ KL(\ q_\phi\left(z\middle| x\right)\ ||\ p\left(z\right))]\]
+
+\[\approx\frac{1}{N}\sum_{x_i\in X}{\mathcal{E}_{\epsilon\sim\mathcal{N}\left(0,I\right)}\left[logp_\theta\left(x_i\middle| z=\mu_{z|x}\left(x_i\right)+\Sigma_{z|x}^{1/2}\left(x_i\right)\ast\epsilon\right)\right]\ -\ KL(\ q_\phi\left(z\middle| x_i\right)\ ||\ p\left(z\right))}\]
+
+\[\approx\frac{1}{N}\sum_{x_i\in X}{log\ p_\theta\left(x_i\middle| z=\mu_{z|x}\left(x_i\right)+\Sigma_{z|x}^{1/2}\left(x_i\right)\ast\epsilon\right)\ -\ KL(\ q_\phi\left(z\middle| x_i\right)\ ||\ p\left(z\right))}\]
+
+<p>The first term is the log likelihood of a Gaussian distribution with mean $\mu_{x|z}$ and variance fixed at $\sigma^2I$. Writing out the expressions 
+for the normal distribution and taking the logarithm of it, the log likelihood of a Gaussian is proportional to the negative mean squared error, 
+that is</p>
+
+\[log\ p_\theta\left(x_i\middle| z=\mu_{z|x}\left(x_i\right)+\Sigma_{z|x}^{1/2}\left(x_i\right)\ast\epsilon\right)\ \propto\ -\ \frac{1}{2\sigma^2}\left(x_i-\mu_{x|z}\right)^2\]
+
+<p>The KL divergence between two normal distributions, $\mathcal{N}_0\left(\mu_0,\Sigma_0\right)$ and $\mathcal{N}_1\left(\mu_1,\Sigma_1\right)$ 
+evaluates to</p>
+
+\[KL(\mathcal{N}_0\ ||\ \mathcal{N}_1) = \frac{1}{2}\ [Tr(\Sigma_1^{-1}\Sigma_0)\ +\ \ {(\mu_1-\ \mu_0)}^T\Sigma_1^{-1}(\mu_1- \mu_0)\ -\ K\ +\ ln\left(\frac{det\Sigma_1}{det\Sigma_0}\right)]\]
+
+<p>Applying this formula to the two normal distributions, $q_\phi\left(z\middle| x_i\right)\ \equiv\mathcal{N}\left(\mu_{z|x\ },\Sigma_{z|x}\right)$ 
+and $p\left(z\right)\equiv\mathcal{N}\left(0,I\right)$ simplifies the second term in the above expression derived for the ELBO term of the VAE.</p>
+
+\[KL\left(q_\phi\left(z\middle| x_i\right)\middle|\left|p\left(z\right)\right)\propto\frac{1}{2}\left[Tr\left(\Sigma_{z|x}\left(x_i\right)\right)+{\mu_{z|x}\left(x_i\right)}^T\mu_{z|x}\left(x_i\right)\right)-K-log\left(det{\ \Sigma}_{z|x}\left(x_i\right)\right)\right]\]
+
+<p>Here $Tr$ denotes the trace of the matrix, and $det$ denotes the determinant of the matrix. Substituting the two terms in the expression for 
+$\mathcal{E}_{x\sim\mathcal{D}}\ [log\ p(X)\ -\ KL(q||p)]$ gives the result</p>
+
+\[\mathcal{E}_{x\sim\mathcal{D}}\ [log\ p(X)\ -\ KL(q||p)] \approx\frac{1}{N}\ \sum_{x_i\in X}{-\ \frac{1}{2\sigma^2}\left(x_i-\mu_{x|z}\right)^2\ -\ }\frac{1}{2}\left[Tr\left(\Sigma_{z|x}\left(x_i\right)\right)+{\mu_{z|x}\left(x_i\right)}^T\mu_{z|x}\left(x_i\right)\right)-K -log\left(det{\ \Sigma}_{z|x}\left(x_i\right)\right)]\]
+
+<p>The negative of this final expression thus will be the loss function for the VAE neural network. It can be coded in a software like Tensorflow or Pytorch and minimized for.</p>
+
+<h3 id="experiments-and-results-and-code">Experiments and Results and Code</h3>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<h3 id="references">References</h3>
+<p>Bishop, Prof. Ravindran’s ML lectures, Prof. Mitesh’s DL lectures, ML book by Simon Prince</p>
+
 
 
     
