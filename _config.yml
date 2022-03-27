@@ -6,7 +6,6 @@ permalink: blog/:year/:month/:day/:title
 exclude: ["Makefile", "README.md"]
 
 baseurl: ""                   # the subpath of your site, e.g. /blog
-
 # Build settings
 markdown: kramdown
 highlighter: rouge

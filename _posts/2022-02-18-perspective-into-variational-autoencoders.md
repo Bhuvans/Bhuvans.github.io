@@ -969,7 +969,18 @@ $$\mathcal{E}_{x\sim\mathcal{D}}\ [log\ p(X)\ -\ KL(q||p)] \approx\frac{1}{N}\ \
 The negative of this final expression thus will be the loss function for the VAE neural network. It can be coded in a software like Tensorflow or Pytorch and minimized for.
 
 ### Experiments and Results and Code
+### First, we need to tell Markdown where the two column layout begins.
+Anything before this element will be rendered normally.
 
+```
+<div class="begin-examples"></div>
+```
+
+And we should also tell it where the two column layout ends.
+
+```
+<div class="end-examples"></div>
+```
 ### Conclusion
 
 ### References
