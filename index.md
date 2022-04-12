@@ -10,5 +10,8 @@ Hello, my name is Bhuvaneswari. I work as a Data Scientist with Schlumberger on 
 
 
 This is my [LinkedIn] page.  
+This is my [GitHub] page.
 
 [LinkedIn]: https://www.linkedin.com/in/bhuvaneswari-s-07217955/
+[GitHub]: https://github.com/Bhuvans
+
